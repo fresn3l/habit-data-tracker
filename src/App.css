@@ -3,10 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Premium Color Palette */
-  --luxury-gold: #D4AF37;
-  --luxury-gold-light: #E8D29F;
-  --luxury-gold-dark: #B8941F;
+  /* Premium Color Palette - Black Shades */
+  --luxury-gold: #1A1A1A;
+  --luxury-gold-light: #404040;
+  --luxury-gold-dark: #0A0A0A;
   --deep-navy: #0A1929;
   --navy-blue: #132F4C;
   --charcoal: #1A1A1A;
@@ -17,6 +17,13 @@
   --rich-black: #050505;
   --elegant-gray: #4A4A4A;
   --light-gray: #F5F5F5;
+  
+  /* Black Gradient Shades */
+  --black-light: #2A2A2A;
+  --black-medium: #1A1A1A;
+  --black-dark: #0D0D0D;
+  --black-soft: #333333;
+  --accent-gray: #666666;
   
   /* Accent Colors */
   --emerald: #10B981;
@@ -38,7 +45,7 @@
   --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-elegant: 0 4px 20px rgba(0, 0, 0, 0.12);
   --shadow-premium: 0 8px 32px rgba(0, 0, 0, 0.16);
-  --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.15);
+  --shadow-glow: 0 0 40px rgba(0, 0, 0, 0.25);
   
   /* Transitions */
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -53,7 +60,7 @@
 
 body {
   font-family: var(--font-modern);
-  background: linear-gradient(135deg, #0A1929 0%, #132F4C 50%, #0A1929 100%);
+  background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%);
   background-attachment: fixed;
   color: var(--charcoal);
   line-height: 1.6;
@@ -77,8 +84,8 @@ body {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -110,7 +117,7 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
 .app-header h1 {
@@ -118,7 +125,7 @@ body {
   font-size: 3.5rem;
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
-  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E4E2 50%, #C0C0C0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -129,7 +136,7 @@ body {
 .date {
   font-family: var(--font-elegant);
   font-size: 1.25rem;
-  color: var(--luxury-gold-light);
+  color: var(--platinum);
   font-weight: 300;
   letter-spacing: 1px;
   margin-bottom: var(--spacing-md);
@@ -147,7 +154,7 @@ body {
 .main-tab {
   padding: 1rem 2.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   color: var(--platinum);
   font-family: var(--font-modern);
@@ -168,7 +175,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transition: var(--transition-smooth);
 }
 
@@ -177,16 +184,16 @@ body {
 }
 
 .main-tab:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--luxury-gold);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .main-tab.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(232, 210, 159, 0.15) 100%);
-  border-color: var(--luxury-gold);
-  color: var(--luxury-gold-light);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
   box-shadow: var(--shadow-glow);
   font-weight: 600;
 }
@@ -203,7 +210,7 @@ body {
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: var(--shadow-elegant);
 }
 
@@ -211,14 +218,14 @@ body {
   font-size: 3rem;
   display: block;
   margin-bottom: var(--spacing-sm);
-  filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.3));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .greeting-message {
   font-family: var(--font-elegant);
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--luxury-gold-light);
+  color: var(--platinum);
   margin: 0;
   letter-spacing: 1px;
 }
@@ -234,7 +241,7 @@ body {
 .filter-btn {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   color: var(--platinum);
   font-family: var(--font-modern);
@@ -247,15 +254,15 @@ body {
 }
 
 .filter-btn:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--luxury-gold);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(232, 210, 159, 0.15) 100%);
-  border-color: var(--luxury-gold);
-  color: var(--luxury-gold-light);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .no-habits-message {
@@ -272,7 +279,7 @@ body {
 .tab {
   padding: 0.875rem 2rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 14px;
   color: var(--platinum);
   font-family: var(--font-modern);
@@ -285,15 +292,15 @@ body {
 }
 
 .tab:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--luxury-gold);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .tab.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(232, 210, 159, 0.15) 100%);
-  border-color: var(--luxury-gold);
-  color: var(--luxury-gold-light);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .progress-container {
@@ -312,10 +319,10 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
+  background: linear-gradient(90deg, #2A2A2A 0%, #404040 50%, #1A1A1A 100%);
   border-radius: 20px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .progress-text {
@@ -336,7 +343,7 @@ body {
 
 .app-footer {
   text-align: center;
-  color: var(--luxury-gold-light);
+  color: var(--platinum);
   opacity: 0.7;
   font-family: var(--font-elegant);
   font-size: 1rem;
