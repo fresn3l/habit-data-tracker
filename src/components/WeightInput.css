@@ -1,82 +1,117 @@
+/* Premium Weight Input Design */
+
 .weight-input-container {
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-elegant);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  transition: var(--transition-elegant);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.weight-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+  opacity: 0;
+  transition: var(--transition-smooth);
 }
 
 .weight-input-container:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-premium);
+  border-color: var(--luxury-gold);
+  transform: translateY(-2px);
+}
+
+.weight-input-container:hover::before {
+  opacity: 1;
 }
 
 .weight-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .weight-icon {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
 }
 
 .weight-header h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1f2937;
+  font-family: var(--font-elegant);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--deep-navy);
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
 .weight-display {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
+  padding: var(--spacing-sm);
+  border-radius: 14px;
+  transition: var(--transition-smooth);
 }
 
 .weight-display:hover {
-  background-color: #f9fafb;
+  background: rgba(212, 175, 55, 0.05);
 }
 
 .weight-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #667eea;
+  font-family: var(--font-elegant);
+  font-size: 2.5rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
 }
 
 .weight-unit {
-  font-size: 1rem;
-  color: #6b7280;
+  font-family: var(--font-modern);
+  font-size: 1.1rem;
+  color: var(--elegant-gray);
   font-weight: 500;
 }
 
 .weight-edit-btn {
   margin-left: auto;
-  padding: 0.5rem 1rem;
-  background: #667eea;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-dark) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  border-radius: 12px;
+  font-family: var(--font-modern);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-smooth);
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-subtle);
 }
 
 .weight-edit-btn:hover {
-  background: #5568d3;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 .weight-form {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--spacing-sm);
   align-items: center;
 }
 
@@ -84,68 +119,75 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--ivory);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  transition: var(--transition-smooth);
 }
 
 .weight-input-wrapper:focus-within {
-  border-color: #667eea;
+  border-color: var(--luxury-gold);
   background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
 }
 
 .weight-input-field {
   flex: 1;
   border: none;
   background: transparent;
-  font-size: 1.5rem;
+  font-family: var(--font-elegant);
+  font-size: 1.75rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--deep-navy);
   outline: none;
   width: 100%;
+  letter-spacing: 0.5px;
 }
 
 .weight-input-field::placeholder {
-  color: #9ca3af;
+  color: var(--silver);
   font-weight: 400;
+  opacity: 0.6;
 }
 
 .weight-unit-input {
+  font-family: var(--font-modern);
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--elegant-gray);
   font-weight: 500;
 }
 
 .weight-save-btn {
-  padding: 0.75rem 1.5rem;
-  background: #10b981;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, var(--emerald) 0%, #059669 100%);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
+  font-family: var(--font-modern);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-smooth);
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-subtle);
 }
 
 .weight-save-btn:hover {
-  background: #059669;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 @media (max-width: 480px) {
   .weight-input-container {
-    padding: 1.25rem;
+    padding: var(--spacing-md);
+    border-radius: 20px;
   }
   
   .weight-value {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .weight-form {
