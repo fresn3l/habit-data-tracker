@@ -2,10 +2,11 @@ import { useState } from 'react'
 import HabitsPage from './pages/HabitsPage'
 import GoalsPage from './pages/GoalsPage'
 import ToDoPage from './pages/ToDoPage'
+import AnalyticsPage from './pages/AnalyticsPage'
 import './App.css'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('habits') // 'habits', 'goals', or 'todos'
+  const [currentPage, setCurrentPage] = useState('habits') // 'habits', 'goals', 'todos', or 'analytics'
   const [date, setDate] = useState(new Date().toLocaleDateString())
 
   return (
@@ -34,6 +35,12 @@ function App() {
           >
             To Do
           </button>
+          <button 
+            className={`main-tab ${currentPage === 'analytics' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('analytics')}
+          >
+            Analytics
+          </button>
         </div>
       </header>
 
@@ -41,6 +48,7 @@ function App() {
         {currentPage === 'habits' && <HabitsPage />}
         {currentPage === 'goals' && <GoalsPage />}
         {currentPage === 'todos' && <ToDoPage />}
+        {currentPage === 'analytics' && <AnalyticsPage />}
       </main>
 
       {currentPage === 'habits' && (

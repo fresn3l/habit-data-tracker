@@ -19,6 +19,10 @@ export const saveTodo = (todo) => {
   if (existingIndex >= 0) {
     todos[existingIndex] = todo
   } else {
+    // New todo - set creation time if not already set
+    if (!todo.createdAt) {
+      todo.createdAt = new Date().toISOString()
+    }
     todos.push(todo)
   }
   
