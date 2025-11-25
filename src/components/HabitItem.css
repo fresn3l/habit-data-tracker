@@ -1,0 +1,222 @@
+.habit-item {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.habit-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--category-color, linear-gradient(180deg, #667eea 0%, #764ba2 100%));
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.habit-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.habit-item:hover::before {
+  transform: scaleY(1);
+}
+
+.habit-item.completed {
+  background: var(--category-bg, linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%));
+  border: 2px solid var(--category-color, #22c55e);
+  opacity: 0.95;
+}
+
+.habit-item.completed::before {
+  background: var(--category-color, linear-gradient(180deg, #22c55e 0%, #16a34a 100%));
+  transform: scaleY(1);
+}
+
+.habit-item.animating {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.habit-checkbox {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.habit-checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.habit-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--category-color, #667eea);
+  border-radius: 8px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+}
+
+.habit-item.completed .checkmark {
+  background: var(--category-color, #22c55e);
+  border-color: var(--category-color, #22c55e);
+  transform: rotate(360deg) scale(1.1);
+}
+
+.habit-item:not(.completed) .checkmark::after {
+  content: '';
+}
+
+.habit-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.habit-badges {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+@media (max-width: 480px) {
+  .habit-badges {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.habit-time-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+.habit-time-badge[data-time="morning"] {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.habit-time-badge[data-time="night"] {
+  background-color: #1e1b4b;
+  color: #c7d2fe;
+}
+
+.habit-category-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: auto;
+}
+
+.habit-emoji {
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.habit-item.completed .habit-emoji {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.habit-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1f2937;
+  transition: all 0.3s ease;
+}
+
+.habit-item.completed .habit-name {
+  color: var(--category-color, #065f46);
+  text-decoration: line-through;
+  opacity: 0.9;
+}
+
+.habit-celebration {
+  font-size: 1.5rem;
+  animation: bounce 0.6s ease;
+  margin-left: auto;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .habit-item {
+    padding: 1rem 1.25rem;
+  }
+  
+  .habit-name {
+    font-size: 1rem;
+  }
+  
+  .habit-emoji {
+    font-size: 1.5rem;
+  }
+  
+  .habit-category-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  
+  .habit-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
