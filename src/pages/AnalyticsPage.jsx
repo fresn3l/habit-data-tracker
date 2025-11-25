@@ -2,11 +2,14 @@ import { useState, useMemo } from 'react'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { getAverageTimeToCompletion, getHabitCompletionStats, getTodoCompletionStats, getProductivityTrend } from '../utils/analytics'
 import { getAllHabitStreaks } from '../utils/streaksStorage'
+import { getDifficultyStats, getHighEffortLowCompletion } from '../utils/difficultyUtils'
 import DataExport from '../components/DataExport'
 import DataImport from '../components/DataImport'
 import BackupManager from '../components/BackupManager'
 import HabitCalendar from '../components/HabitCalendar'
 import DayDetailModal from '../components/DayDetailModal'
+import MoodHistory from '../components/MoodHistory'
+import MoodCorrelationChart from '../components/MoodCorrelationChart'
 import './AnalyticsPage.css'
 
 const COLORS = ['#667eea', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4']
@@ -45,6 +48,14 @@ function AnalyticsPage() {
   const habitStreaks = useMemo(() => {
     return getAllHabitStreaks()
   }, [habitStats]) // Recalculate when habit stats change
+
+  const difficultyStats = useMemo(() => {
+    return getDifficultyStats()
+  }, [habitStats])
+
+  const highEffortHabits = useMemo(() => {
+    return getHighEffortLowCompletion()
+  }, [difficultyStats])
 
   return (
     <>
@@ -168,6 +179,18 @@ function AnalyticsPage() {
           </div>
         )}
 
+        {/* Mood Tracking */}
+        <div className="chart-container">
+          <h2>Mood History</h2>
+          <MoodHistory timeframe={timeframe} />
+        </div>
+
+        {/* Mood Correlations */}
+        <div className="chart-container">
+          <h2>Mood & Habit Correlations</h2>
+          <MoodCorrelationChart />
+        </div>
+
         {/* Calendar Heatmap */}
         <div className="chart-container">
           <h2>Completion Calendar</h2>
@@ -229,6 +252,48 @@ function AnalyticsPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* Difficulty & Effort Analysis */}
+        {difficultyStats.length > 0 && (
+          <div className="chart-container">
+            <h2>Habit Difficulty & Effort</h2>
+            <div className="difficulty-stats">
+              <div className="difficulty-chart">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={difficultyStats.filter(s => s.difficulty).slice(0, 10)}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis 
+                      dataKey="name" 
+                      stroke="#666"
+                      angle={-45}
+                      textAnchor="end"
+                      height={100}
+                    />
+                    <YAxis stroke="#666" domain={[0, 5]} />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="difficulty" fill="#f59e0b" name="Difficulty (1-5)" />
+                    <Bar dataKey="completionRate" fill="#667eea" name="Completion Rate" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {highEffortHabits.length > 0 && (
+                <div className="effort-recommendations">
+                  <h3>💡 Recommendations</h3>
+                  <p>These habits have high effort but low completion rates. Consider:</p>
+                  <ul>
+                    {highEffortHabits.slice(0, 3).map(habit => (
+                      <li key={habit.id}>
+                        <strong>{habit.name}</strong> - Try breaking it down into smaller steps or reducing difficulty
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         )}

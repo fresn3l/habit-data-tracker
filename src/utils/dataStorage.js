@@ -30,6 +30,8 @@ export const saveDayData = (dateKey, habits, weight = null) => {
       category: h.category,
       completed: h.completed,
       timeOfDay: h.timeOfDay || 'anytime',
+      difficulty: h.difficulty || null,
+      actualTimeSpent: h.actualTimeSpent || null,
     })),
     completedCount: habits.filter(h => h.completed).length,
     totalCount: habits.length,

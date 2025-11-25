@@ -1,0 +1,125 @@
+.time-tracker {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.timer-time {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+}
+
+.timer-indicator {
+  color: #ef4444;
+  font-size: 1rem;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.timer-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timer-btn.start {
+  background: #10b981;
+  color: white;
+}
+
+.timer-btn.start:hover {
+  background: #059669;
+}
+
+.timer-btn.stop {
+  background: #ef4444;
+  color: white;
+}
+
+.timer-btn.stop:hover {
+  background: #dc2626;
+}
+
+.timer-btn.reset {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.timer-btn.reset:hover {
+  background: #e5e7eb;
+}
+
+.timer-btn.save {
+  background: #667eea;
+  color: white;
+}
+
+.timer-btn.save:hover {
+  background: #5568d3;
+}
+
+.manual-time-entry {
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.manual-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.manual-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manual-time-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.manual-time-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.manual-unit {
+  font-size: 0.9rem;
+  color: #6b7280;
+}

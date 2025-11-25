@@ -1,0 +1,35 @@
+.mood-history {
+  padding: 1rem 0;
+}
+
+.mood-history-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.mood-average {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+.average-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.average-emoji {
+  font-size: 2rem;
+}
+
+.average-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #667eea;
+}

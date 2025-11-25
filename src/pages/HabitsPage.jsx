@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import HabitItem from '../components/HabitItem'
 import WeightInput from '../components/WeightInput'
+import MoodInput from '../components/MoodInput'
 import StatsView from '../components/StatsView'
 import { getCategoryForHabit } from '../utils/habitCategories'
 import { saveDayData, getDayData, getTodayKey, saveWeight } from '../utils/dataStorage'
@@ -174,6 +175,7 @@ function HabitsPage() {
             </button>
           </div>
 
+          <MoodInput />
           <WeightInput 
             weight={weight}
             onWeightChange={handleWeightChange}
@@ -189,7 +191,26 @@ function HabitsPage() {
                 <HabitItem
                   key={habit.id}
                   habit={habit}
-                  onToggle={toggleHabit}
+                  onToggle={(id) => {
+                    toggleHabit(id)
+                    // Recalculate streaks after toggle
+                    setTimeout(() => {
+                      // Force re-render of streak badges
+                      setHabits([...habits])
+                    }, 100)
+                  }}
+                  onUpdate={() => {
+                    // Reload habits to get updated difficulty/time
+                    const todayKey = getTodayKey()
+                    const savedData = getDayData(todayKey)
+                    if (savedData && savedData.habits) {
+                      setHabits(savedData.habits.map(h => ({
+                        ...h,
+                        category: h.category || getCategoryForHabit(h.name),
+                        timeOfDay: h.timeOfDay || 'anytime',
+                      })))
+                    }
+                  }}
                 />
               ))
             )}
