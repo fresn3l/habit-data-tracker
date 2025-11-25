@@ -7,13 +7,27 @@ function ToDoForm({ todo, onSave, onCancel }) {
   const [timeCommitment, setTimeCommitment] = useState(todo?.timeCommitment || 'short')
   const [urgency, setUrgency] = useState(todo?.urgency || 'medium')
   const [dueDate, setDueDate] = useState(todo?.dueDate || '')
+  const [isRecurring, setIsRecurring] = useState(todo?.isRecurring || false)
+  const [recurrencePattern, setRecurrencePattern] = useState(todo?.recurrencePattern || 'daily')
+  const [recurrenceInterval, setRecurrenceInterval] = useState(todo?.recurrenceInterval || 1)
+  const [recurrenceEndDate, setRecurrenceEndDate] = useState(todo?.recurrenceEndDate || '')
 
   useEffect(() => {
-    if (todo?.dueDate) {
-      // Format date for input (YYYY-MM-DD)
-      const date = new Date(todo.dueDate)
-      const formattedDate = date.toISOString().split('T')[0]
-      setDueDate(formattedDate)
+    if (todo) {
+      if (todo.dueDate) {
+        // Format date for input (YYYY-MM-DD)
+        const date = new Date(todo.dueDate)
+        const formattedDate = date.toISOString().split('T')[0]
+        setDueDate(formattedDate)
+      }
+      setIsRecurring(todo.isRecurring || false)
+      setRecurrencePattern(todo.recurrencePattern || 'daily')
+      setRecurrenceInterval(todo.recurrenceInterval || 1)
+      if (todo.recurrenceEndDate) {
+        const endDate = new Date(todo.recurrenceEndDate)
+        const formattedEndDate = endDate.toISOString().split('T')[0]
+        setRecurrenceEndDate(formattedEndDate)
+      }
     }
   }, [todo])
 
@@ -30,6 +44,10 @@ function ToDoForm({ todo, onSave, onCancel }) {
       dueDate: dueDate ? new Date(dueDate).toISOString() : null,
       completed: todo?.completed || false,
       updatedAt: new Date().toISOString(),
+      isRecurring: isRecurring,
+      recurrencePattern: isRecurring ? recurrencePattern : null,
+      recurrenceInterval: isRecurring ? recurrenceInterval : null,
+      recurrenceEndDate: isRecurring && recurrenceEndDate ? new Date(recurrenceEndDate).toISOString() : null,
     }
 
     if (!todoData.id) {
@@ -110,6 +128,66 @@ function ToDoForm({ todo, onSave, onCancel }) {
               min={new Date().toISOString().split('T')[0]}
             />
           </div>
+
+          <div className="form-group">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={isRecurring}
+                onChange={(e) => setIsRecurring(e.target.checked)}
+                className="form-checkbox"
+              />
+              <span>Make this recurring</span>
+            </label>
+          </div>
+
+          {isRecurring && (
+            <>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Recurrence Pattern</label>
+                  <select
+                    value={recurrencePattern}
+                    onChange={(e) => setRecurrencePattern(e.target.value)}
+                    className="form-input"
+                  >
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Repeat Every</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={recurrenceInterval}
+                    onChange={(e) => setRecurrenceInterval(parseInt(e.target.value) || 1)}
+                    className="form-input"
+                  />
+                  <span className="form-hint">
+                    {recurrencePattern === 'daily' ? 'day(s)' :
+                     recurrencePattern === 'weekly' ? 'week(s)' :
+                     recurrencePattern === 'monthly' ? 'month(s)' : 'year(s)'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>End Date (Optional)</label>
+                <input
+                  type="date"
+                  value={recurrenceEndDate}
+                  onChange={(e) => setRecurrenceEndDate(e.target.value)}
+                  className="form-input"
+                  min={dueDate || new Date().toISOString().split('T')[0]}
+                />
+                <span className="form-hint">Leave empty for no end date</span>
+              </div>
+            </>
+          )}
 
           <div className="form-actions">
             <button type="button" className="btn-cancel" onClick={onCancel}>

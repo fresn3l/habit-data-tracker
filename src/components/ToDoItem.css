@@ -160,6 +160,15 @@
   font-weight: 700;
 }
 
+.recurrence-indicator {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
 .todo-actions {
   display: flex;
   gap: 0.5rem;

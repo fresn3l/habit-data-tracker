@@ -145,6 +145,14 @@
   color: #c7d2fe;
 }
 
+.habit-reminder-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
 .habit-difficulty-badge {
   padding: 0.25rem 0.5rem;
   border-radius: 12px;

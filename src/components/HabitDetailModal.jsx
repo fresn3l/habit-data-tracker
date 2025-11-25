@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 import DifficultySelector from './DifficultySelector'
 import TimeTracker from './TimeTracker'
+import ReminderSettings from './ReminderSettings'
 import { saveDayData, getDayData, getTodayKey } from '../utils/dataStorage'
+import { isReminderEnabled } from '../utils/reminderStorage'
 import './HabitDetailModal.css'
 
 function HabitDetailModal({ habit, onClose, onUpdate }) {
   const [difficulty, setDifficulty] = useState(habit.difficulty || null)
   const [timeSpent, setTimeSpent] = useState(null)
   const [showTimeTracker, setShowTimeTracker] = useState(false)
+  const [showReminderSettings, setShowReminderSettings] = useState(false)
+  const [hasReminder, setHasReminder] = useState(false)
 
   useEffect(() => {
     // Load today's time if available
@@ -19,6 +23,9 @@ function HabitDetailModal({ habit, onClose, onUpdate }) {
         setTimeSpent(todayHabit.actualTimeSpent)
       }
     }
+    
+    // Check if reminder is enabled
+    setHasReminder(isReminderEnabled(habit.id))
   }, [habit])
 
   const handleDifficultyChange = (newDifficulty) => {
@@ -97,6 +104,32 @@ function HabitDetailModal({ habit, onClose, onUpdate }) {
             )}
             <p className="detail-help">
               Track how long this habit actually takes to complete
+            </p>
+          </div>
+
+          <div className="detail-section">
+            <h3>Reminders {hasReminder && <span className="reminder-enabled">🔔</span>}</h3>
+            {!showReminderSettings ? (
+              <button 
+                className="btn-track-time"
+                onClick={() => setShowReminderSettings(true)}
+              >
+                {hasReminder ? 'Edit Reminders' : 'Set Up Reminders'}
+              </button>
+            ) : (
+              <ReminderSettings
+                habitId={habit.id}
+                onClose={() => {
+                  setShowReminderSettings(false)
+                  setHasReminder(isReminderEnabled(habit.id))
+                }}
+                onSave={() => {
+                  setHasReminder(isReminderEnabled(habit.id))
+                }}
+              />
+            )}
+            <p className="detail-help">
+              Get notified when it's time to complete this habit
             </p>
           </div>
         </div>

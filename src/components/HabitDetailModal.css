@@ -132,3 +132,8 @@
   background: #5568d3;
   transform: translateY(-1px);
 }
+
+.reminder-enabled {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getRecurrenceLabel, calculateNextOccurrence } from '../utils/recurrenceUtils'
 import './ToDoItem.css'
 
 function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
@@ -92,6 +93,11 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
             <span className="time-commitment">
               {getTimeCommitmentIcon()} {todo.timeCommitment}
             </span>
+            {todo.isRecurring && !todo.isRecurringInstance && (
+              <span className="recurrence-indicator" title={getRecurrenceLabel(todo)}>
+                🔄 {getRecurrenceLabel(todo)}
+              </span>
+            )}
             {todo.dueDate && (
               <span className={`due-date ${isOverdue() ? 'overdue-text' : ''}`}>
                 {dueDateText()}

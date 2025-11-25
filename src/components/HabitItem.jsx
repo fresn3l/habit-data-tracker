@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import StreakBadge from './StreakBadge'
 import HabitDetailModal from './HabitDetailModal'
+import { isReminderEnabled } from '../utils/reminderStorage'
 import './HabitItem.css'
 
 function HabitItem({ habit, onToggle, onUpdate }) {
   const [isAnimating, setIsAnimating] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
+  const hasReminder = isReminderEnabled(habit.id)
 
   const handleToggle = (e) => {
     e.stopPropagation()
@@ -47,6 +49,11 @@ function HabitItem({ habit, onToggle, onUpdate }) {
           {habit.timeOfDay && habit.timeOfDay !== 'anytime' && (
             <span className="habit-time-badge" data-time={habit.timeOfDay}>
               {habit.timeOfDay === 'morning' ? '🌅' : '🌙'} {habit.timeOfDay}
+            </span>
+          )}
+          {hasReminder && (
+            <span className="habit-reminder-badge" title="Reminders enabled">
+              🔔
             </span>
           )}
           {habit.difficulty && (

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import ToDoItem from '../components/ToDoItem'
 import ToDoForm from '../components/ToDoForm'
+import RecurrenceManager from '../components/RecurrenceManager'
 import { getAllTodos, saveTodo, deleteTodo, toggleTodoComplete, getTodosByPriority, getOverdueTodos } from '../utils/todoStorage'
+import { generateRecurringTodo, shouldGenerateNext } from '../utils/recurrenceUtils'
 import './ToDoPage.css'
 
 function ToDoPage() {
@@ -9,10 +11,17 @@ function ToDoPage() {
   const [showTodoForm, setShowTodoForm] = useState(false)
   const [editingTodo, setEditingTodo] = useState(null)
   const [filter, setFilter] = useState('all') // 'all', 'active', 'completed'
+  const [showRecurrenceManager, setShowRecurrenceManager] = useState(false)
 
   useEffect(() => {
     loadTodos()
+    checkRecurringTodos()
   }, [])
+
+  useEffect(() => {
+    // Check for recurring todos whenever todos change
+    checkRecurringTodos()
+  }, [todos])
 
   const loadTodos = () => {
     const allTodos = getAllTodos()
@@ -26,8 +35,45 @@ function ToDoPage() {
     setEditingTodo(null)
   }
 
+  const checkRecurringTodos = () => {
+    const allTodos = getAllTodos()
+    const recurringTemplates = allTodos.filter(t => 
+      t.isRecurring && !t.isRecurringInstance
+    )
+    
+    recurringTemplates.forEach(template => {
+      // Check if we need to generate a new instance
+      if (shouldGenerateNext(template)) {
+        // Check if an instance for this due date already exists
+        const nextDue = template.nextDueDate || template.dueDate
+        const existingInstance = allTodos.find(t => 
+          t.originalRecurringId === template.id &&
+          t.dueDate &&
+          new Date(t.dueDate).toDateString() === new Date(nextDue).toDateString()
+        )
+        
+        if (!existingInstance) {
+          const newInstance = generateRecurringTodo(template)
+          if (newInstance) {
+            saveTodo(newInstance)
+          }
+        }
+      }
+    })
+    
+    loadTodos()
+  }
+
   const handleTodoToggle = (todoId) => {
-    toggleTodoComplete(todoId)
+    const todo = toggleTodoComplete(todoId)
+    
+    // If completing a recurring todo instance, check if we need to generate next
+    if (todo && todo.completed && todo.originalRecurringId) {
+      setTimeout(() => {
+        checkRecurringTodos()
+      }, 1000)
+    }
+    
     loadTodos()
   }
 
@@ -70,9 +116,18 @@ function ToDoPage() {
       <div className="todos-header">
         <div className="todos-header-content">
           <h2>My To Do List</h2>
-          <button className="create-todo-btn" onClick={handleNewTodo}>
-            + New To Do
-          </button>
+          <div className="header-buttons">
+            <button className="create-todo-btn" onClick={handleNewTodo}>
+              + New To Do
+            </button>
+            <button 
+              className="recurring-btn" 
+              onClick={() => setShowRecurrenceManager(true)}
+              title="Manage Recurring Todos"
+            >
+              🔄 Recurring
+            </button>
+          </div>
         </div>
         
         {todos.length > 0 && (
@@ -158,6 +213,15 @@ function ToDoPage() {
           todo={editingTodo}
           onSave={handleTodoSave}
           onCancel={() => { setShowTodoForm(false); setEditingTodo(null); }}
+        />
+      )}
+
+      {showRecurrenceManager && (
+        <RecurrenceManager 
+          onClose={() => {
+            setShowRecurrenceManager(false)
+            loadTodos()
+          }}
         />
       )}
     </>

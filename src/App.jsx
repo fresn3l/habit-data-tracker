@@ -1,14 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import HabitsPage from './pages/HabitsPage'
 import GoalsPage from './pages/GoalsPage'
 import ToDoPage from './pages/ToDoPage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import ReviewsPage from './pages/ReviewsPage'
+import { startReminderScheduler } from './utils/reminderScheduler'
+import { requestNotificationPermission } from './utils/notificationUtils'
 import './App.css'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('habits') // 'habits', 'goals', 'todos', 'analytics', or 'reviews'
   const [date, setDate] = useState(new Date().toLocaleDateString())
+
+  useEffect(() => {
+    // Request notification permission on first load
+    requestNotificationPermission().then(hasPermission => {
+      if (hasPermission) {
+        // Start reminder scheduler
+        startReminderScheduler()
+      }
+    })
+
+    // Cleanup on unmount
+    return () => {
+      import('./utils/reminderScheduler').then(module => {
+        module.stopReminderScheduler()
+      })
+    }
+  }, [])
 
   return (
     <div className="app">
