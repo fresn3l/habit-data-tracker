@@ -1,12 +1,22 @@
 import { useState, useMemo } from 'react'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { getAverageTimeToCompletion, getHabitCompletionStats, getTodoCompletionStats, getProductivityTrend } from '../utils/analytics'
+import { getAllHabitStreaks } from '../utils/streaksStorage'
+import DataExport from '../components/DataExport'
+import DataImport from '../components/DataImport'
+import BackupManager from '../components/BackupManager'
+import HabitCalendar from '../components/HabitCalendar'
+import DayDetailModal from '../components/DayDetailModal'
 import './AnalyticsPage.css'
 
 const COLORS = ['#667eea', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4']
 
 function AnalyticsPage() {
   const [timeframe, setTimeframe] = useState('month') // 'week', 'month', 'all'
+  const [showExport, setShowExport] = useState(false)
+  const [showImport, setShowImport] = useState(false)
+  const [showBackup, setShowBackup] = useState(false)
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(null)
 
   const avgTimeToCompletion = useMemo(() => {
     return getAverageTimeToCompletion(timeframe)
@@ -31,6 +41,10 @@ function AnalyticsPage() {
       todosCompleted: day.todosCompleted
     }))
   }, [productivityTrend])
+
+  const habitStreaks = useMemo(() => {
+    return getAllHabitStreaks()
+  }, [habitStats]) // Recalculate when habit stats change
 
   return (
     <>
@@ -154,6 +168,14 @@ function AnalyticsPage() {
           </div>
         )}
 
+        {/* Calendar Heatmap */}
+        <div className="chart-container">
+          <h2>Completion Calendar</h2>
+          <HabitCalendar 
+            onDayClick={(date, dayData) => setSelectedCalendarDate(date)}
+          />
+        </div>
+
         {/* Habit Performance Table */}
         {habitStats.length > 0 && (
           <div className="chart-container">
@@ -166,6 +188,7 @@ function AnalyticsPage() {
                     <th>Completion Rate</th>
                     <th>Completed Days</th>
                     <th>Total Days</th>
+                    <th>Current Streak</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -192,6 +215,16 @@ function AnalyticsPage() {
                       </td>
                       <td>{habit.completedDays}</td>
                       <td>{habit.totalDays}</td>
+                      <td>
+                        {habitStreaks[habit.id] && (
+                          <div className="streak-info">
+                            🔥 {habitStreaks[habit.id].currentStreak} days
+                            {habitStreaks[habit.id].longestStreak > habitStreaks[habit.id].currentStreak && (
+                              <span className="streak-best"> (Best: {habitStreaks[habit.id].longestStreak})</span>
+                            )}
+                          </div>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -231,6 +264,21 @@ function AnalyticsPage() {
           </div>
         )}
       </div>
+
+      {showExport && <DataExport onClose={() => setShowExport(false)} />}
+      {showImport && (
+        <DataImport 
+          onClose={() => setShowImport(false)}
+          onSuccess={() => setShowImport(false)}
+        />
+      )}
+      {showBackup && <BackupManager onClose={() => setShowBackup(false)} />}
+      {selectedCalendarDate && (
+        <DayDetailModal 
+          date={selectedCalendarDate}
+          onClose={() => setSelectedCalendarDate(null)}
+        />
+      )}
     </>
   )
 }

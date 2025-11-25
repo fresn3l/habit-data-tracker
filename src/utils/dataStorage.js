@@ -29,6 +29,7 @@ export const saveDayData = (dateKey, habits, weight = null) => {
       emoji: h.emoji,
       category: h.category,
       completed: h.completed,
+      timeOfDay: h.timeOfDay || 'anytime',
     })),
     completedCount: habits.filter(h => h.completed).length,
     totalCount: habits.length,

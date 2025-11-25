@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import StreakBadge from './StreakBadge'
 import './HabitItem.css'
 
 function HabitItem({ habit, onToggle }) {
@@ -45,9 +46,12 @@ function HabitItem({ habit, onToggle }) {
           </span>
         </div>
       </div>
-      {habit.completed && (
-        <span className="habit-celebration">🎉</span>
-      )}
+      <div className="habit-right">
+        {habit.completed && (
+          <span className="habit-celebration">🎉</span>
+        )}
+        <StreakBadge habitId={habit.id} showLongest={false} />
+      </div>
     </div>
   )
 }

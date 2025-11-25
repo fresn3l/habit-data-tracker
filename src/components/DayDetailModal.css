@@ -1,0 +1,141 @@
+.day-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.day-detail-container {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.day-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.day-detail-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.day-detail-content {
+  padding: 1.5rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.detail-section {
+  margin-bottom: 2rem;
+}
+
+.detail-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.habit-item-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+.habit-item-detail.completed {
+  background: #ecfdf5;
+  border-color: #86efac;
+}
+
+.habit-emoji {
+  font-size: 1.5rem;
+}
+
+.habit-name {
+  flex: 1;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.habit-item-detail.completed .habit-name {
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.check-icon {
+  color: #22c55e;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.completion-stats {
+  padding: 0.75rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #374151;
+}
+
+.weight-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  text-align: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
