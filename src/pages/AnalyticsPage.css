@@ -7,7 +7,7 @@
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: var(--shadow-elegant);
 }
 
@@ -25,7 +25,7 @@
   font-size: 2.75rem;
   font-weight: 600;
   margin: 0;
-  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -41,7 +41,7 @@
 .data-btn {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   color: var(--platinum);
   font-family: var(--font-modern);
@@ -54,10 +54,10 @@
 }
 
 .data-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: var(--luxury-gold);
+  background: rgba(0, 0, 0, 0.15);
+  border-color: #1A1A1A;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .timeframe-selector {
@@ -70,7 +70,7 @@
 .timeframe-btn {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 14px;
   color: var(--platinum);
   font-family: var(--font-modern);
@@ -83,15 +83,15 @@
 }
 
 .timeframe-btn:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--luxury-gold);
+  background: rgba(0, 0, 0, 0.1);
+  border-color: #1A1A1A;
 }
 
 .timeframe-btn.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(232, 210, 159, 0.15) 100%);
-  border-color: var(--luxury-gold);
-  color: var(--luxury-gold-light);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(64, 64, 64, 0.15) 100%);
+  border-color: #1A1A1A;
+  color: #2A2A2A;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .analytics-container {
@@ -111,7 +111,7 @@
   border-radius: 24px;
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-elegant);
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   transition: var(--transition-elegant);
   position: relative;
@@ -125,7 +125,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
+  background: linear-gradient(90deg, #1A1A1A 0%, #2A2A2A 100%);
   transform: scaleX(0);
   transition: var(--transition-elegant);
 }
@@ -148,7 +148,7 @@
   font-family: var(--font-elegant);
   font-size: 2.75rem;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-dark) 100%);
+  background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -168,14 +168,14 @@
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
   box-shadow: var(--shadow-elegant);
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   transition: var(--transition-smooth);
 }
 
 .chart-container:hover {
   box-shadow: var(--shadow-premium);
-  border-color: var(--luxury-gold);
+  border-color: #1A1A1A;
 }
 
 .chart-container h2 {
@@ -198,7 +198,7 @@
 }
 
 .habit-stats-table thead {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(232, 210, 159, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(64, 64, 64, 0.05) 100%);
 }
 
 .habit-stats-table th {
@@ -210,18 +210,18 @@
   text-align: left;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .habit-stats-table td {
   padding: var(--spacing-md);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-family: var(--font-modern);
   color: var(--charcoal);
 }
 
 .habit-stats-table tr:hover {
-  background: rgba(212, 175, 55, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .habit-emoji-table {
@@ -238,7 +238,7 @@
 .percentage-bar {
   flex: 1;
   height: 10px;
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -247,7 +247,7 @@
   height: 100%;
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .percentage-text {
@@ -280,16 +280,16 @@
 .todo-stat-item {
   text-align: center;
   padding: var(--spacing-md);
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(232, 210, 159, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(64, 64, 64, 0.02) 100%);
   border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .todo-stat-value {
   font-family: var(--font-elegant);
   font-size: 2.5rem;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-dark) 100%);
+  background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
