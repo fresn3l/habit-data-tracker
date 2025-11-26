@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { generateWeeklyReview, saveReview } from '../utils/reviewUtils'
+import { generateWeeklyReview, saveReview } from '../../utils/reviewUtils'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import './WeeklyReview.css'
 

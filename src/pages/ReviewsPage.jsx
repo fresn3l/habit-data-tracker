@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import WeeklyReview from '../components/WeeklyReview'
-import MonthlyReview from '../components/MonthlyReview'
+import WeeklyReview from '../components/modals/WeeklyReview'
+import MonthlyReview from '../components/modals/MonthlyReview'
 import { getReviews } from '../utils/reviewUtils'
 import './ReviewsPage.css'
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import DifficultySelector from './DifficultySelector'
-import TimeTracker from './TimeTracker'
-import ReminderSettings from './ReminderSettings'
-import { saveDayData, getDayData, getTodayKey } from '../utils/dataStorage'
-import { isReminderEnabled } from '../utils/reminderStorage'
+import DifficultySelector from '../forms/DifficultySelector'
+import TimeTracker from '../todos/TimeTracker'
+import ReminderSettings from '../forms/ReminderSettings'
+import { saveDayData, getDayData, getTodayKey } from '../../utils/dataStorage'
+import { isReminderEnabled } from '../../utils/reminderStorage'
 import './HabitDetailModal.css'
 
 function HabitDetailModal({ habit, onClose, onUpdate }) {

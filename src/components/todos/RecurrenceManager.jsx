@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getAllTodos, saveTodo, deleteTodo } from '../utils/todoStorage'
-import { calculateNextOccurrence, getRecurrenceLabel } from '../utils/recurrenceUtils'
+import { getAllTodos, saveTodo, deleteTodo } from '../../utils/todoStorage'
+import { calculateNextOccurrence, getRecurrenceLabel } from '../../utils/recurrenceUtils'
 import ToDoForm from './ToDoForm'
 import './RecurrenceManager.css'
 

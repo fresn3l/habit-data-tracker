@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import StreakBadge from './StreakBadge'
 import HabitDetailModal from './HabitDetailModal'
-import { isReminderEnabled } from '../utils/reminderStorage'
+import { isReminderEnabled } from '../../utils/reminderStorage'
 import './HabitItem.css'
 
 function HabitItem({ habit, onToggle, onUpdate }) {
@@ -28,21 +28,36 @@ function HabitItem({ habit, onToggle, onUpdate }) {
   return (
     <div 
       className={`habit-item ${habit.completed ? 'completed' : ''} ${isAnimating ? 'animating' : ''}`}
-      onClick={handleToggle}
+      onClick={(e) => {
+        // Don't toggle if clicking the detail button or its children
+        if (e.target.closest('.habit-detail-btn')) {
+          return
+        }
+        handleToggle()
+      }}
       style={{
         '--category-color': category.color,
         '--category-bg': category.bgColor,
         '--category-border': category.borderColor,
       }}
     >
-      <div className="habit-checkbox" onClick={handleCheckboxClick}>
+      <div className="habit-checkbox">
         <input
           type="checkbox"
           checked={habit.completed}
-          onChange={handleCheckboxClick}
-          onClick={handleCheckboxClick}
+          onChange={(e) => {
+            e.stopPropagation()
+            handleToggle()
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            handleToggle()
+          }}
         />
-        <span className="checkmark">✓</span>
+        <span className="checkmark" onClick={(e) => {
+          e.stopPropagation()
+          handleToggle()
+        }}>✓</span>
       </div>
       <div className="habit-content">
         <span className="habit-emoji">{habit.emoji}</span>

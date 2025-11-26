@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import GoalItem from '../components/GoalItem'
-import GoalForm from '../components/GoalForm'
+import GoalItem from '../components/goals/GoalItem'
+import GoalForm from '../components/goals/GoalForm'
 import { getAllGoals, saveGoal, deleteGoal } from '../utils/goalStorage'
 import './GoalsPage.css'
 
