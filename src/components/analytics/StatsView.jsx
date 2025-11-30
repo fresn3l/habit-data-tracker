@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ComposedChart } from 'recharts'
-import { getWeekData, getMonthData, calculateCompletionRate, calculatePercentageChange, getDateRange, getAllStoredData, getAverageWeight, calculateWeightChange } from '../utils/dataStorage'
-import { HABIT_CATEGORIES } from '../utils/habitCategories'
+import { getWeekData, getMonthData, calculateCompletionRate, calculatePercentageChange, getDateRange, getAllStoredData, getAverageWeight, calculateWeightChange } from '../../utils/dataStorage'
+import { HABIT_CATEGORIES } from '../../utils/habitCategories'
 import './StatsView.css'
 
 function StatsView({ viewType }) {

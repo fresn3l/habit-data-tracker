@@ -1,0 +1,8 @@
+# Eel and dependencies for desktop app
+eel>=0.18.0
+# Note: bottle, gevent, and other dependencies are automatically installed with eel
+
+# Packaging tools
+auto-py-to-exe>=2.48.0
+pyinstaller>=6.17.0
+

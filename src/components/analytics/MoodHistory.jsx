@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { getMoodHistory, getAverageMood, getMoodEmoji } from '../utils/moodStorage'
+import { getMoodHistory, getAverageMood, getMoodEmoji } from '../../utils/moodStorage'
 import './MoodHistory.css'
 
 function MoodHistory({ timeframe = 'month' }) {

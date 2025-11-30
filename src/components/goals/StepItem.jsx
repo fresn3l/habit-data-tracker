@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { isStepCompleted, completeStep } from '../utils/goalStorage'
+import { isStepCompleted, completeStep } from '../../utils/goalStorage'
 import './StepItem.css'
 
 function StepItem({ step, goal, onUpdate }) {

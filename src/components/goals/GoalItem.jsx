@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import StepItem from './StepItem'
 import StepForm from './StepForm'
-import { getStepsForGoal, calculateGoalProgress, deleteGoalStep, saveGoalStep } from '../utils/goalStorage'
+import { getStepsForGoal, calculateGoalProgress, deleteGoalStep, saveGoalStep } from '../../utils/goalStorage'
 import './GoalItem.css'
 
 function GoalItem({ goal, onUpdate, onEdit, onDelete }) {

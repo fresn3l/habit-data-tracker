@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getRecurrenceLabel, calculateNextOccurrence } from '../utils/recurrenceUtils'
+import { getRecurrenceLabel, calculateNextOccurrence } from '../../utils/recurrenceUtils'
 import './ToDoItem.css'
 
 function ToDoItem({ todo, onToggle, onEdit, onDelete }) {

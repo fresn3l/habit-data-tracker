@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getBackups, restoreFromBackup, deleteBackup, createBackup } from '../utils/importUtils'
+import { getBackups, restoreFromBackup, deleteBackup, createBackup } from '../../utils/importUtils'
 import './BackupManager.css'
 
 function BackupManager({ onClose }) {

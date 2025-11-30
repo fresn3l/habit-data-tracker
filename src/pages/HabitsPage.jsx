@@ -3,7 +3,7 @@ import HabitItem from '../components/habits/HabitItem'
 import WeightInput from '../components/habits/WeightInput'
 import MoodInput from '../components/analytics/MoodInput'
 import StatsView from '../components/analytics/StatsView'
-import { getCategoryForHabit } from '../utils/habitCategories'
+import { getCategoryForHabit, HABIT_CATEGORIES } from '../utils/habitCategories'
 import { saveDayData, getDayData, getTodayKey, saveWeight } from '../utils/dataStorage'
 import { getTimeBasedGreeting, getCurrentTimePeriod, shouldShowHabit } from '../utils/timeUtils'
 import '../App.css'
@@ -76,11 +76,13 @@ function HabitsPage() {
   }
 
   const toggleHabit = (id) => {
-    setHabits(habits.map(habit => 
-      habit.id === id 
-        ? { ...habit, completed: !habit.completed }
-        : habit
-    ))
+    setHabits(prevHabits => 
+      prevHabits.map(habit => 
+        habit.id === id 
+          ? { ...habit, completed: !habit.completed }
+          : habit
+      )
+    )
   }
 
   const getFilteredHabits = () => {
@@ -97,7 +99,39 @@ function HabitsPage() {
     return habits.filter(h => shouldShowHabit(h, timePeriod))
   }
 
+  // Group filtered habits by category
+  const groupHabitsByCategory = (habits) => {
+    const grouped = {}
+    
+    // Group habits by their category
+    habits.forEach(habit => {
+      if (!habit.category) return
+      
+      // Find which category key this habit belongs to by comparing category objects
+      const categoryKey = Object.keys(HABIT_CATEGORIES).find(key => {
+        return habit.category === HABIT_CATEGORIES[key] || 
+               (habit.category.name && habit.category.name === HABIT_CATEGORIES[key].name)
+      })
+      
+      if (categoryKey) {
+        if (!grouped[categoryKey]) {
+          grouped[categoryKey] = {
+            category: HABIT_CATEGORIES[categoryKey],
+            habits: []
+          }
+        }
+        grouped[categoryKey].habits.push(habit)
+      }
+    })
+    
+    // Return only categories that have habits
+    return Object.keys(grouped)
+      .filter(key => grouped[key].habits.length > 0)
+      .map(key => grouped[key])
+  }
+
   const filteredHabits = getFilteredHabits()
+  const habitsByCategory = groupHabitsByCategory(filteredHabits)
   const completedCount = filteredHabits.filter(h => h.completed).length
   const totalCount = filteredHabits.length
   const completionPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
@@ -186,32 +220,50 @@ function HabitsPage() {
               <div className="no-habits-message">
                 <p>No habits to show for this time period.</p>
               </div>
+            ) : habitsByCategory.length === 0 ? (
+              <div className="no-habits-message">
+                <p>No habits to display.</p>
+              </div>
             ) : (
-              filteredHabits.map(habit => (
-                <HabitItem
-                  key={habit.id}
-                  habit={habit}
-                  onToggle={(id) => {
-                    toggleHabit(id)
-                    // Recalculate streaks after toggle
-                    setTimeout(() => {
-                      // Force re-render of streak badges
-                      setHabits([...habits])
-                    }, 100)
-                  }}
-                  onUpdate={() => {
-                    // Reload habits to get updated difficulty/time
-                    const todayKey = getTodayKey()
-                    const savedData = getDayData(todayKey)
-                    if (savedData && savedData.habits) {
-                      setHabits(savedData.habits.map(h => ({
-                        ...h,
-                        category: h.category || getCategoryForHabit(h.name),
-                        timeOfDay: h.timeOfDay || 'anytime',
-                      })))
-                    }
-                  }}
-                />
+              habitsByCategory.map((categoryGroup) => (
+                <div key={categoryGroup.category.name} className="habit-category-column">
+                  <div 
+                    className="category-header"
+                    style={{
+                      backgroundColor: categoryGroup.category.bgColor,
+                      borderColor: categoryGroup.category.borderColor,
+                      color: categoryGroup.category.color,
+                    }}
+                  >
+                    <h3>{categoryGroup.category.name}</h3>
+                    <span className="category-count">
+                      {categoryGroup.habits.filter(h => h.completed).length} / {categoryGroup.habits.length}
+                    </span>
+                  </div>
+                  <div className="category-habits">
+                    {categoryGroup.habits.map(habit => (
+                      <HabitItem
+                        key={habit.id}
+                        habit={habit}
+                        onToggle={(id) => {
+                          toggleHabit(id)
+                        }}
+                        onUpdate={() => {
+                          // Reload habits to get updated difficulty/time
+                          const todayKey = getTodayKey()
+                          const savedData = getDayData(todayKey)
+                          if (savedData && savedData.habits) {
+                            setHabits(savedData.habits.map(h => ({
+                              ...h,
+                              category: h.category || getCategoryForHabit(h.name),
+                              timeOfDay: h.timeOfDay || 'anytime',
+                            })))
+                          }
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))
             )}
           </div>

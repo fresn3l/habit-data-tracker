@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { saveReminder, getReminder } from '../utils/reminderStorage'
+import { saveReminder, getReminder } from '../../utils/reminderStorage'
 import './ReminderSettings.css'
 
 const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']

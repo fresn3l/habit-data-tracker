@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { calculateStreak } from '../utils/streaksStorage'
+import { calculateStreak } from '../../utils/streaksStorage'
 import './StreakBadge.css'
 
 function StreakBadge({ habitId, showLongest = false }) {

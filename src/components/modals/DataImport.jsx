@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { importData, validateImportData } from '../utils/importUtils'
+import { importData, validateImportData } from '../../utils/importUtils'
 import './DataImport.css'
 
 function DataImport({ onClose, onSuccess }) {

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { ScatterChart, Scatter, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts'
-import { getMoodVsHabitsCompleted, getTopMoodBoostingHabits, getTopMoodNegativeHabits } from '../utils/moodCorrelations'
-import { getAllStoredData } from '../utils/dataStorage'
+import { getMoodVsHabitsCompleted, getTopMoodBoostingHabits, getTopMoodNegativeHabits } from '../../utils/moodCorrelations'
+import { getAllStoredData } from '../../utils/dataStorage'
 import './MoodCorrelationChart.css'
 
 const COLORS = ['#667eea', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6']

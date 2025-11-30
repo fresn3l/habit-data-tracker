@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { exportAllData, downloadData } from '../utils/exportUtils'
+import { exportAllData, downloadData } from '../../utils/exportUtils'
 import './DataExport.css'
 
 function DataExport({ onClose }) {

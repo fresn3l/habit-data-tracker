@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getDayData } from '../utils/dataStorage'
+import { getDayData } from '../../utils/dataStorage'
 import './DayDetailModal.css'
 
 function DayDetailModal({ date, onClose }) {

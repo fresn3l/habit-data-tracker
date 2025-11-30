@@ -72,6 +72,8 @@
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .habit-checkbox input {
@@ -81,7 +83,7 @@
   height: 100%;
   cursor: pointer;
   z-index: 3;
-  pointer-events: auto;
+  pointer-events: all;
 }
 
 .habit-checkbox .checkmark {

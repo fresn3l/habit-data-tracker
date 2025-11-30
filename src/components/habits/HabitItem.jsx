@@ -9,7 +9,11 @@ function HabitItem({ habit, onToggle, onUpdate }) {
   const [showDetail, setShowDetail] = useState(false)
   const hasReminder = isReminderEnabled(habit.id)
 
-  const handleToggle = () => {
+  const handleToggle = (e) => {
+    if (e) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
     setIsAnimating(true)
     setTimeout(() => setIsAnimating(false), 300)
     if (onToggle) {
@@ -29,11 +33,13 @@ function HabitItem({ habit, onToggle, onUpdate }) {
     <div 
       className={`habit-item ${habit.completed ? 'completed' : ''} ${isAnimating ? 'animating' : ''}`}
       onClick={(e) => {
-        // Don't toggle if clicking the detail button or its children
-        if (e.target.closest('.habit-detail-btn')) {
+        // Don't toggle if clicking the detail button, checkbox, or badges
+        if (e.target.closest('.habit-detail-btn') || 
+            e.target.closest('.habit-checkbox') ||
+            e.target.closest('.habit-badges')) {
           return
         }
-        handleToggle()
+        handleToggle(e)
       }}
       style={{
         '--category-color': category.color,
@@ -41,23 +47,14 @@ function HabitItem({ habit, onToggle, onUpdate }) {
         '--category-border': category.borderColor,
       }}
     >
-      <div className="habit-checkbox">
+      <div className="habit-checkbox" onClick={handleToggle}>
         <input
           type="checkbox"
           checked={habit.completed}
-          onChange={(e) => {
-            e.stopPropagation()
-            handleToggle()
-          }}
-          onClick={(e) => {
-            e.stopPropagation()
-            handleToggle()
-          }}
+          onChange={() => {}}
+          readOnly
         />
-        <span className="checkmark" onClick={(e) => {
-          e.stopPropagation()
-          handleToggle()
-        }}>✓</span>
+        <span className="checkmark">✓</span>
       </div>
       <div className="habit-content">
         <span className="habit-emoji">{habit.emoji}</span>

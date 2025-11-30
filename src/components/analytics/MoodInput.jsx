@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { saveMood, getTodayMood, getMoodEmoji } from '../utils/moodStorage'
-import { getTodayKey } from '../utils/dataStorage'
+import { saveMood, getTodayMood, getMoodEmoji } from '../../utils/moodStorage'
+import { getTodayKey } from '../../utils/dataStorage'
 import './MoodInput.css'
 
 const MOOD_OPTIONS = [

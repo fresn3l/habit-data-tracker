@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getHeatmapData, getIntensityColor, formatMonthYear, getCalendarDays } from '../utils/calendarUtils'
-import { getDayData } from '../utils/dataStorage'
+import { getHeatmapData, getIntensityColor, formatMonthYear, getCalendarDays } from '../../utils/calendarUtils'
+import { getDayData } from '../../utils/dataStorage'
 import './HabitCalendar.css'
 
 function HabitCalendar({ habitId = null, onDayClick }) {

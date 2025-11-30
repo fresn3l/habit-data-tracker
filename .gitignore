@@ -27,3 +27,14 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# Python virtual environment
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Eel web directory (contains built files)
+web/
