@@ -24,13 +24,11 @@
  * @module utils/dataStorage
  * @requires constants/storageKeys
  */
-
 import { STORAGE_KEY_HABIT_DATA } from '../constants/storageKeys'
 import { CACHE_TTL } from '../constants/appConstants'
 
 // Use the constant for the storage key (maintains backward compatibility)
-const STORAGE_KEY = STORAGE_KEY_HABIT_DATA
-
+export const STORAGE_KEY = STORAGE_KEY_HABIT_DATA
 // ============================================================================
 // CACHE MANAGEMENT
 // ============================================================================
