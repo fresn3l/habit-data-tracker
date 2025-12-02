@@ -2,22 +2,42 @@
 
 export const STORAGE_KEY = 'habit-tracker-data'
 
+// Cache for getAllStoredData to avoid repeated parsing
+let dataCache = null
+let cacheTimestamp = null
+const CACHE_TTL = 5000 // 5 seconds
+
 export const getTodayKey = () => {
   return new Date().toDateString()
 }
 
-export const getAllStoredData = () => {
+export const getAllStoredData = (useCache = true) => {
+  const now = Date.now()
+  
+  // Return cached data if still valid
+  if (useCache && dataCache && cacheTimestamp && (now - cacheTimestamp) < CACHE_TTL) {
+    return dataCache
+  }
+  
   try {
     const data = localStorage.getItem(STORAGE_KEY)
-    return data ? JSON.parse(data) : {}
+    dataCache = data ? JSON.parse(data) : {}
+    cacheTimestamp = now
+    return dataCache
   } catch (error) {
     console.error('Error reading stored data:', error)
     return {}
   }
 }
 
+// Clear cache when data is modified
+export const clearDataCache = () => {
+  dataCache = null
+  cacheTimestamp = null
+}
+
 export const saveDayData = (dateKey, habits, weight = null) => {
-  const allData = getAllStoredData()
+  const allData = getAllStoredData(false) // Don't use cache when writing
   const existingData = allData[dateKey] || {}
   
   allData[dateKey] = {
@@ -39,16 +59,18 @@ export const saveDayData = (dateKey, habits, weight = null) => {
     timestamp: new Date().toISOString(),
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(allData))
+  clearDataCache() // Clear cache after write
 }
 
 export const saveWeight = (dateKey, weight) => {
-  const allData = getAllStoredData()
+  const allData = getAllStoredData(false) // Don't use cache when writing
   if (!allData[dateKey]) {
     allData[dateKey] = { date: dateKey, timestamp: new Date().toISOString() }
   }
   allData[dateKey].weight = weight
   allData[dateKey].timestamp = new Date().toISOString()
   localStorage.setItem(STORAGE_KEY, JSON.stringify(allData))
+  clearDataCache() // Clear cache after write
 }
 
 export const getDayData = (dateKey) => {

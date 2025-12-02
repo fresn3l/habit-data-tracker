@@ -1,25 +1,35 @@
-import { useState, useEffect } from 'react'
-import HabitsPage from './pages/HabitsPage'
-import GoalsPage from './pages/GoalsPage'
-import ToDoPage from './pages/ToDoPage'
-import AnalyticsPage from './pages/AnalyticsPage'
-import ReviewsPage from './pages/ReviewsPage'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { startReminderScheduler } from './utils/reminderScheduler'
 import { requestNotificationPermission } from './utils/notificationUtils'
 import './App.css'
+
+// Lazy load pages for faster startup
+const HabitsPage = lazy(() => import('./pages/HabitsPage'))
+const GoalsPage = lazy(() => import('./pages/GoalsPage'))
+const ToDoPage = lazy(() => import('./pages/ToDoPage'))
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
+const ReviewsPage = lazy(() => import('./pages/ReviewsPage'))
 
 function App() {
   const [currentPage, setCurrentPage] = useState('habits') // 'habits', 'goals', 'todos', 'analytics', or 'reviews'
   const [date, setDate] = useState(new Date().toLocaleDateString())
 
   useEffect(() => {
-    // Request notification permission on first load
-    requestNotificationPermission().then(hasPermission => {
-      if (hasPermission) {
-        // Start reminder scheduler
-        startReminderScheduler()
-      }
-    })
+    // Defer reminder scheduler to after initial render for faster startup
+    const initReminders = () => {
+      requestNotificationPermission().then(hasPermission => {
+        if (hasPermission) {
+          startReminderScheduler()
+        }
+      })
+    }
+    
+    // Use requestIdleCallback if available, otherwise setTimeout
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initReminders, { timeout: 2000 })
+    } else {
+      setTimeout(initReminders, 100)
+    }
 
     // Cleanup on unmount
     return () => {
@@ -71,11 +81,13 @@ function App() {
       </header>
 
       <main className="app-main">
-        {currentPage === 'habits' && <HabitsPage />}
-        {currentPage === 'goals' && <GoalsPage />}
-        {currentPage === 'todos' && <ToDoPage />}
-        {currentPage === 'analytics' && <AnalyticsPage />}
-        {currentPage === 'reviews' && <ReviewsPage />}
+        <Suspense fallback={<div className="loading-state">Loading...</div>}>
+          {currentPage === 'habits' && <HabitsPage />}
+          {currentPage === 'goals' && <GoalsPage />}
+          {currentPage === 'todos' && <ToDoPage />}
+          {currentPage === 'analytics' && <AnalyticsPage />}
+          {currentPage === 'reviews' && <ReviewsPage />}
+        </Suspense>
       </main>
 
       {currentPage === 'habits' && (

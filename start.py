@@ -10,8 +10,24 @@ import sys
 import json
 from pathlib import Path
 
+# Determine the correct path to web directory
+# When packaged with PyInstaller, we need to find the directory correctly
+def get_resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        # If not packaged, use the directory containing start.py
+        base_path = os.path.abspath(os.path.dirname(__file__))
+    
+    return os.path.join(base_path, relative_path)
+
+# Get the correct path to web directory
+web_path = get_resource_path('web')
+
 # Initialize Eel with the web directory (contains built React app)
-eel.init('web')
+eel.init(web_path)
 
 # Application configuration
 APP_NAME = "Personal Tracker"
@@ -94,16 +110,16 @@ def show_notification(title, message):
 
 def check_web_directory():
     """Verifies that the web directory exists and contains the built React app."""
-    web_dir = Path('web')
+    web_dir = Path(web_path)
     index_file = web_dir / 'index.html'
     
     if not web_dir.exists():
-        print(f"ERROR: 'web' directory not found!")
+        print(f"ERROR: 'web' directory not found at {web_dir}!")
         print("Please run 'npm run build' first to build the React app.")
         return False
     
     if not index_file.exists():
-        print(f"ERROR: 'web/index.html' not found!")
+        print(f"ERROR: 'web/index.html' not found at {index_file}!")
         print("Please run 'npm run build' first to build the React app.")
         return False
     
@@ -119,23 +135,74 @@ def main():
     print(f"Window size: {WINDOW_SIZE[0]}x{WINDOW_SIZE[1]}")
     
     # Start Eel application
-    # mode='chrome' uses Chrome/Edge (or 'chrome-app' for app mode)
+    # Try to use Edge first (better on macOS), fall back to Chrome
+    # mode='chrome-app' for app mode (no browser UI) - works with Chrome/Edge
     # size=WINDOW_SIZE sets the window dimensions
     # port=0 means use a random available port
+    
+    # Check for Edge or Chrome on macOS - REQUIRED for app mode
+    edge_path = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+    chrome_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+    
+    chrome_path_param = None
+    browser_name = None
+    
+    if os.path.exists(edge_path):
+        chrome_path_param = edge_path
+        browser_name = "Microsoft Edge"
+        print(f"✓ Found {browser_name}")
+    elif os.path.exists(chrome_path):
+        chrome_path_param = chrome_path
+        browser_name = "Google Chrome"
+        print(f"✓ Found {browser_name}")
+    else:
+        print("ERROR: Neither Chrome nor Edge found!")
+        print("")
+        print("To run as a standalone app (not in Safari), you need:")
+        print("  - Microsoft Edge: https://www.microsoft.com/edge")
+        print("  - OR Google Chrome: https://www.google.com/chrome")
+        print("")
+        print("Safari does not support app mode. Please install Edge or Chrome.")
+        sys.exit(1)
+    
     try:
-        eel.start(
-            'index.html',
-            mode='chrome-app',  # 'chrome-app' for app mode (no browser UI)
-            size=WINDOW_SIZE,
-            port=0,  # Random port
-            host='localhost',
-            disable_cache=True,  # Disable cache for development
-            cmdline_args=[
-                '--disable-web-security',  # Allow local file access if needed
+        import subprocess
+        import threading
+        import time
+        
+        # Use a fixed port so we can launch browser manually
+        FIXED_PORT = 8080
+        
+        # Function to launch Edge/Chrome in app mode after server starts
+        def launch_browser():
+            """Launch Edge/Chrome in app mode pointing to the Eel server."""
+            time.sleep(0.2)  # Give Eel server time to start (reduced from 1s)
+            url = f'http://localhost:{FIXED_PORT}/index.html'
+            app_args = [
+                chrome_path_param,
+                '--app=' + url,
+                '--window-size={},{}'.format(WINDOW_SIZE[0], WINDOW_SIZE[1]),
+                '--disable-web-security',
                 '--disable-features=TranslateUI',
-                '--disable-background-networking'
+                '--disable-background-networking',
+                '--no-first-run',
+                '--no-default-browser-check'
             ]
-        )
+            subprocess.Popen(app_args)
+        
+        print(f"Starting app in {browser_name} (standalone mode)...")
+        
+        # Launch browser in a separate thread
+        browser_thread = threading.Thread(target=launch_browser, daemon=True)
+        browser_thread.start()
+        
+        # Start Eel server without auto-opening browser (mode=False)
+        # We'll launch the browser manually
+        eel.start('index.html',
+                  mode=False,  # Don't auto-open browser
+                  port=FIXED_PORT,
+                  host='localhost',
+                  disable_cache=True)
     except (SystemExit, MemoryError, KeyboardInterrupt):
         # Handle graceful shutdown
         print(f"\n{APP_NAME} is shutting down...")

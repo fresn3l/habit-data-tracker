@@ -57,7 +57,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+/* BACKGROUND GRADIENT */
 body {
   font-family: var(--font-modern);
   background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%);
@@ -469,5 +469,27 @@ body {
   
   .greeting-message {
     font-size: 1.25rem;
+  }
+}
+
+/* Loading state for lazy-loaded components */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-family: var(--font-modern);
+  color: var(--platinum);
+  font-size: 1.1rem;
+  opacity: 0.8;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }
