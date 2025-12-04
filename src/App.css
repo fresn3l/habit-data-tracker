@@ -420,12 +420,12 @@ body {
    HABITS CONTAINER MAX WIDTH
    ============================================================================
    
-   The habits container has a wider max-width to accommodate the grid layout
-   of habit category columns.
+   The habits container has an optimal max-width for the single-column layout
+   where categories are stacked vertically and habits take full rows.
 */
 
 .app-main .habits-container {
-  max-width: 2400px;  /* Very wide to fit multiple category columns */
+  max-width: 900px;  /* Optimal width for single-column layout */
   margin: 0 auto;
 }
 
@@ -702,44 +702,40 @@ body {
 }
 
 /* ============================================================================
-   HABITS CONTAINER (GRID LAYOUT)
+   HABITS CONTAINER (SINGLE COLUMN LAYOUT)
    ============================================================================
    
-   The main container for habit items. Uses CSS Grid to create a responsive
-   layout where each column represents a different habit category.
+   The main container for habit items. Uses flexbox to create a single-column
+   layout where categories are stacked vertically, and each habit takes a full row.
    
-   Grid automatically adjusts number of columns based on screen size:
-   - Large screens: Multiple columns (one per category)
-   - Medium screens: Fewer columns
-   - Small screens: Single column
+   Categories are displayed one after another, with each category containing
+   its habits in a vertical list.
 */
 
 .habits-container {
-  display: grid;
-  
-  /* Responsive grid: auto-fit columns, minimum 280px width each */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  
-  gap: var(--spacing-lg);      /* Space between category columns */
+  display: flex;
+  flex-direction: column;      /* Stack categories vertically */
+  gap: var(--spacing-lg);      /* Space between category sections */
   margin-bottom: var(--spacing-xl);
-  align-items: start;          /* Align columns to top */
+  max-width: 100%;             /* Full width of container */
 }
 
 /* ============================================================================
-   HABIT CATEGORY COLUMN
+   HABIT CATEGORY SECTION
    ============================================================================
    
-   Each column in the habits grid represents one habit category (Health, Fitness,
-   Nutrition, Mental, Lifestyle, Avoidance). Habits are grouped by category
-   and displayed in their respective columns.
+   Each category section represents one habit category (Health, Fitness,
+   Nutrition, Mental, Lifestyle, Avoidance). Categories are stacked vertically
+   in a single column, with each category containing its habits in full-width rows.
    
-   This creates a visual organization system where users can quickly find
-   habits by category.
+   This creates a vertical list organization where users can scroll through
+   categories and see all habits in each category as full-width rows.
 */
 
 .habit-category-column {
   display: flex;
   flex-direction: column;  /* Stack header and habits vertically */
+  width: 100%;             /* Full width of container */
   
   /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.03);
@@ -750,7 +746,6 @@ body {
   overflow: hidden;
   
   transition: var(--transition-smooth);
-  min-height: 200px;  /* Ensure column has minimum height */
 }
 
 /* ============================================================================
@@ -853,8 +848,8 @@ body {
    CATEGORY HABITS LIST
    ============================================================================
    
-   Container for the list of habit items within a category column.
-   Uses flexbox to stack habits vertically.
+   Container for the list of habit items within a category section.
+   Uses flexbox to stack habits vertically, with each habit taking full width.
 */
 
 .category-habits {
@@ -862,23 +857,8 @@ body {
   flex-direction: column;  /* Stack habits vertically */
   gap: var(--spacing-md);  /* Space between habit items */
   padding: var(--spacing-lg);
-  flex: 1;                 /* Take remaining space in column */
-}
-
-/* ============================================================================
-   RESPONSIVE DESIGN - LARGE TABLETS
-   ============================================================================
-   
-   Adjust grid layout for screens smaller than 1200px:
-   - Smaller minimum column width (250px instead of 280px)
-   - Tighter gap between columns
-*/
-
-@media (max-width: 1200px) {
-  .habits-container {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  /* Smaller columns */
-    gap: var(--spacing-md);  /* Tighter spacing */
-  }
+  flex: 1;                 /* Take remaining space in section */
+  width: 100%;             /* Full width */
 }
 
 /* ============================================================================
@@ -886,21 +866,20 @@ body {
    ============================================================================
    
    For screens smaller than 768px (phones and small tablets):
-   - Single column layout (all habits stack vertically)
    - Reduced padding
    - Smaller font sizes
+   - Tighter spacing
 */
 
 @media (max-width: 768px) {
-  /* Switch to single column on mobile */
+  /* Tighter spacing on mobile */
   .habits-container {
-    grid-template-columns: 1fr;  /* One column only */
     gap: var(--spacing-md);
   }
   
   /* Reduce max width for better mobile appearance */
   .app-main .habits-container {
-    max-width: 80%;  /* Narrower on mobile */
+    max-width: 100%;  /* Full width on mobile */
   }
   
   /* Smaller app title on mobile */
