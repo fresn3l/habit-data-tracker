@@ -115,14 +115,25 @@
   text-decoration: line-through;
 }
 
-.urgency-badge {
+.priority-badge {
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.linked-goal-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.25) 100%);
+  color: #1e40af;
+  border: 1px solid rgba(59, 130, 246, 0.3);
   white-space: nowrap;
 }
 

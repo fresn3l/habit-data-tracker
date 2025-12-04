@@ -128,14 +128,17 @@ export const TIME_PERIODS = {
 }
 
 /**
- * Todo urgency levels.
+ * Todo priority levels.
+ * 
+ * Used to organize todos by urgency. "Now" todos appear first,
+ * followed by "Next", then "Later".
  * 
  * @constant {Object}
  */
-export const URGENCY_LEVELS = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high'
+export const TODO_PRIORITY_LEVELS = {
+  NOW: 'now',     // Do this now - highest priority
+  NEXT: 'next',   // Do this next - medium priority
+  LATER: 'later'  // Do this later - lowest priority
 }
 
 /**

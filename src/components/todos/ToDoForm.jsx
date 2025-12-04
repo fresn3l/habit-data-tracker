@@ -1,16 +1,40 @@
+/**
+ * To Do Form Component
+ * 
+ * Form for creating and editing todo items. Supports:
+ * - Priority selection (Now, Next, Later)
+ * - Goal linking (optional)
+ * - Time commitment
+ * - Due dates
+ * - Recurring todos
+ * 
+ * @module components/todos/ToDoForm
+ * @component
+ */
+
 import { useState, useEffect } from 'react'
+import { getAllGoals } from '../../utils/goalStorage'
+import { TODO_PRIORITY_LEVELS } from '../../constants/appConstants'
 import './ToDoForm.css'
 
 function ToDoForm({ todo, onSave, onCancel }) {
   const [title, setTitle] = useState(todo?.title || '')
   const [description, setDescription] = useState(todo?.description || '')
+  const [priority, setPriority] = useState(todo?.priority || 'next')  // Default to 'next'
   const [timeCommitment, setTimeCommitment] = useState(todo?.timeCommitment || 'short')
-  const [urgency, setUrgency] = useState(todo?.urgency || 'medium')
   const [dueDate, setDueDate] = useState(todo?.dueDate || '')
+  const [linkedGoalId, setLinkedGoalId] = useState(todo?.linkedGoalId || '')
   const [isRecurring, setIsRecurring] = useState(todo?.isRecurring || false)
   const [recurrencePattern, setRecurrencePattern] = useState(todo?.recurrencePattern || 'daily')
   const [recurrenceInterval, setRecurrenceInterval] = useState(todo?.recurrenceInterval || 1)
   const [recurrenceEndDate, setRecurrenceEndDate] = useState(todo?.recurrenceEndDate || '')
+  const [availableGoals, setAvailableGoals] = useState([])
+
+  // Load available goals for linking
+  useEffect(() => {
+    const goals = getAllGoals()
+    setAvailableGoals(goals)
+  }, [])
 
   useEffect(() => {
     if (todo) {
@@ -20,6 +44,7 @@ function ToDoForm({ todo, onSave, onCancel }) {
         const formattedDate = date.toISOString().split('T')[0]
         setDueDate(formattedDate)
       }
+      setLinkedGoalId(todo.linkedGoalId || '')
       setIsRecurring(todo.isRecurring || false)
       setRecurrencePattern(todo.recurrencePattern || 'daily')
       setRecurrenceInterval(todo.recurrenceInterval || 1)
@@ -39,9 +64,10 @@ function ToDoForm({ todo, onSave, onCancel }) {
       ...todo,
       title: title.trim(),
       description: description.trim(),
+      priority,  // Use priority instead of urgency
       timeCommitment,
-      urgency,
       dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+      linkedGoalId: linkedGoalId || null,  // Link to goal if selected
       completed: todo?.completed || false,
       updatedAt: new Date().toISOString(),
       isRecurring: isRecurring,
@@ -73,7 +99,7 @@ function ToDoForm({ todo, onSave, onCancel }) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g., Finish project report"
+              placeholder="e.g., Make food"
               required
               className="form-input"
             />
@@ -92,6 +118,21 @@ function ToDoForm({ todo, onSave, onCancel }) {
 
           <div className="form-row">
             <div className="form-group">
+              <label>Priority *</label>
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                className="form-input"
+                required
+              >
+                <option value={TODO_PRIORITY_LEVELS.NOW}>Now</option>
+                <option value={TODO_PRIORITY_LEVELS.NEXT}>Next</option>
+                <option value={TODO_PRIORITY_LEVELS.LATER}>Later</option>
+              </select>
+              <span className="form-hint">When should this be done?</span>
+            </div>
+
+            <div className="form-group">
               <label>Time Commitment</label>
               <select
                 value={timeCommitment}
@@ -103,19 +144,27 @@ function ToDoForm({ todo, onSave, onCancel }) {
                 <option value="long">Long (2+ hrs)</option>
               </select>
             </div>
+          </div>
 
-            <div className="form-group">
-              <label>Urgency</label>
-              <select
-                value={urgency}
-                onChange={(e) => setUrgency(e.target.value)}
-                className="form-input"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
+          <div className="form-group">
+            <label>Link to Goal (Optional)</label>
+            <select
+              value={linkedGoalId}
+              onChange={(e) => setLinkedGoalId(e.target.value)}
+              className="form-input"
+            >
+              <option value="">No goal linked</option>
+              {availableGoals.map(goal => (
+                <option key={goal.id} value={goal.id}>
+                  {goal.emoji || '🎯'} {goal.title}
+                </option>
+              ))}
+            </select>
+            <span className="form-hint">
+              {linkedGoalId 
+                ? 'This todo will count towards your goal progress'
+                : 'Link this todo to a goal to track progress'}
+            </span>
           </div>
 
           <div className="form-group">

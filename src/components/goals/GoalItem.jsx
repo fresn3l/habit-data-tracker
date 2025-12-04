@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import StepItem from './StepItem'
 import StepForm from './StepForm'
-import { getStepsForGoal, calculateGoalProgress, deleteGoalStep, saveGoalStep } from '../../utils/goalStorage'
+import { getStepsForGoal, calculateGoalProgress, deleteGoalStep, saveGoalStep, getGoalCompletedTodosCountSync } from '../../utils/goalStorage'
+import { getTodosForGoal } from '../../utils/todoStorage'
 import './GoalItem.css'
 
 function GoalItem({ goal, onUpdate, onEdit, onDelete }) {
@@ -9,8 +10,26 @@ function GoalItem({ goal, onUpdate, onEdit, onDelete }) {
   const [showStepForm, setShowStepForm] = useState(false)
   const [editingStep, setEditingStep] = useState(null)
   const [expanded, setExpanded] = useState(true)
+  const [todoCount, setTodoCount] = useState(0)
+  const [completedTodoCount, setCompletedTodoCount] = useState(0)
   
   const progress = calculateGoalProgress(goal)
+  
+  // Load todo counts for this goal
+  useEffect(() => {
+    const loadTodoCounts = () => {
+      const todos = getTodosForGoal(goal.id)
+      setTodoCount(todos.length)
+      setCompletedTodoCount(todos.filter(t => t.completed).length)
+    }
+    
+    loadTodoCounts()
+    
+    // Refresh counts when todos might change (polling every 2 seconds)
+    const interval = setInterval(loadTodoCounts, 2000)
+    
+    return () => clearInterval(interval)
+  }, [goal.id])
 
   const handleStepAdded = () => {
     setSteps(getStepsForGoal(goal.id))
@@ -65,6 +84,11 @@ function GoalItem({ goal, onUpdate, onEdit, onDelete }) {
           {goal.targetAmount && (
             <div className="goal-target">
               Target: {goal.targetAmount}{goal.unit ? ` ${goal.unit}` : ''}
+            </div>
+          )}
+          {todoCount > 0 && (
+            <div className="goal-todo-count">
+              ✅ {completedTodoCount} / {todoCount} todos completed
             </div>
           )}
           <div className="goal-progress">

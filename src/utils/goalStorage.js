@@ -17,6 +17,11 @@ export const saveGoal = (goal) => {
   const goals = getAllGoals()
   const existingIndex = goals.findIndex(g => g.id === goal.id)
   
+  // Initialize completedTodosCount if not set
+  if (goal.completedTodosCount === undefined || goal.completedTodosCount === null) {
+    goal.completedTodosCount = 0
+  }
+  
   if (existingIndex >= 0) {
     goals[existingIndex] = goal
   } else {
@@ -177,6 +182,76 @@ export const isStepCompleted = (step, dateKey = null) => {
   } else {
     // One-time step
     return step.completions.length > 0
+  }
+}
+
+/**
+ * Get completed todos count for a goal.
+ * 
+ * This function dynamically imports todoStorage to avoid circular dependencies.
+ * It counts how many todos linked to this goal have been completed.
+ * 
+ * @param {string} goalId - ID of the goal
+ * @returns {number} Count of completed todos linked to this goal
+ */
+export const getGoalCompletedTodosCount = async (goalId) => {
+  try {
+    // Dynamic import to avoid circular dependency
+    const { getCompletedTodosCountForGoal } = await import('./todoStorage')
+    return getCompletedTodosCountForGoal(goalId)
+  } catch (error) {
+    // Fallback: return stored count from goal object
+    const goals = getAllGoals()
+    const goal = goals.find(g => g.id === goalId)
+    return goal?.completedTodosCount || 0
+  }
+}
+
+/**
+ * Get completed todos count for a goal (synchronous version).
+ * 
+ * This version calculates the actual count from todos storage
+ * to ensure accuracy.
+ * 
+ * @param {string} goalId - ID of the goal
+ * @returns {number} Count of completed todos linked to this goal
+ */
+export const getGoalCompletedTodosCountSync = (goalId) => {
+  try {
+    // Calculate from actual todos to ensure accuracy
+    const TODOS_STORAGE_KEY = 'todos-data'
+    const todosData = localStorage.getItem(TODOS_STORAGE_KEY)
+    if (!todosData) return 0
+    
+    const todos = JSON.parse(todosData)
+    const linkedTodos = todos.filter(t => t.linkedGoalId === goalId && t.completed)
+    return linkedTodos.length
+  } catch (error) {
+    console.error('Error getting goal todo count:', error)
+    return 0
+  }
+}
+
+/**
+ * Recalculate and update the completed todos count for a goal.
+ * 
+ * This ensures the goal's completedTodosCount is accurate by
+ * counting all linked completed todos.
+ * 
+ * @param {string} goalId - ID of the goal
+ */
+export const recalculateGoalTodoCount = (goalId) => {
+  try {
+    const count = getGoalCompletedTodosCountSync(goalId)
+    const goals = getAllGoals()
+    const goal = goals.find(g => g.id === goalId)
+    
+    if (goal) {
+      goal.completedTodosCount = count
+      saveGoal(goal)
+    }
+  } catch (error) {
+    console.error('Error recalculating goal todo count:', error)
   }
 }
 
