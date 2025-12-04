@@ -249,7 +249,7 @@ function HabitsPage() {
                           toggleHabit(id)
                         }}
                         onUpdate={() => {
-                          // Reload habits to get updated difficulty/time
+                          // Reload habits to get updated data
                           const todayKey = getTodayKey()
                           const savedData = getDayData(todayKey)
                           if (savedData && savedData.habits) {

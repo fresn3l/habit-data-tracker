@@ -128,21 +128,6 @@ export const TIME_PERIODS = {
 }
 
 /**
- * Habit difficulty levels.
- * 
- * Numeric scale from 1 (easiest) to 5 (hardest).
- * 
- * @constant {Object}
- */
-export const DIFFICULTY_LEVELS = {
-  VERY_EASY: 1,
-  EASY: 2,
-  MODERATE: 3,
-  HARD: 4,
-  VERY_HARD: 5
-}
-
-/**
  * Todo urgency levels.
  * 
  * @constant {Object}
