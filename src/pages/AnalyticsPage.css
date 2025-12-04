@@ -305,45 +305,6 @@
   letter-spacing: 1px;
 }
 
-.difficulty-stats {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.effort-recommendations {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
-  padding: var(--spacing-lg);
-  border-radius: 20px;
-  border-left: 4px solid var(--amber);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-}
-
-.effort-recommendations h3 {
-  font-family: var(--font-elegant);
-  margin: 0 0 var(--spacing-sm) 0;
-  font-size: 1.25rem;
-  color: var(--deep-navy);
-  font-weight: 600;
-}
-
-.effort-recommendations p {
-  margin: 0 0 var(--spacing-md) 0;
-  color: var(--charcoal);
-  font-family: var(--font-modern);
-}
-
-.effort-recommendations ul {
-  margin: 0;
-  padding-left: var(--spacing-lg);
-  color: var(--charcoal);
-  font-family: var(--font-modern);
-}
-
-.effort-recommendations li {
-  margin: var(--spacing-sm) 0;
-}
-
 .no-analytics {
   text-align: center;
   padding: var(--spacing-xl) var(--spacing-lg);

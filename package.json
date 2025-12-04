@@ -1,6 +1,7 @@
 {
-  "name": "habit-tracker",
+  "name": "personal-tracker",
   "version": "1.0.0",
+  "description": "A comprehensive desktop application for tracking daily habits, goals, todos, mood, and analytics",
   "type": "module",
   "scripts": {
     "dev": "vite",
