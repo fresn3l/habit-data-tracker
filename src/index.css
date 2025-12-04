@@ -1,19 +1,65 @@
+/**
+ * Global CSS Reset & Base Styles
+ * 
+ * This file contains the global CSS reset and base styles that apply
+ * to the entire application. It's loaded first and sets up the foundation
+ * for all other styles.
+ * 
+ * The reset ensures consistent styling across all browsers by removing
+ * default browser styles. The body styles set up the basic page appearance.
+ * 
+ * @fileoverview Global reset and base styles
+ * @module index.css
+ */
+
+/* ============================================================================
+   CSS RESET
+   ============================================================================
+   
+   Removes default browser styling to ensure consistent appearance across
+   all browsers. This prevents browser-specific differences in margins,
+   padding, and box-sizing.
+*/
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;        /* Remove default margins */
+  padding: 0;       /* Remove default padding */
+  box-sizing: border-box;  /* Include padding and border in element width */
 }
 
+/* ============================================================================
+   BODY ELEMENT STYLING
+   ============================================================================
+   
+   The body element sets up the base page styling. However, note that
+   App.css overrides most of these styles for the actual app appearance.
+   
+   This serves as a fallback and sets up the basic page structure.
+*/
+
 body {
+  /* System font stack - uses native OS fonts for best performance */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  
+  /* Font smoothing for crisp text rendering */
+  -webkit-font-smoothing: antialiased;  /* Smooth text on Safari/Chrome */
+  -moz-osx-font-smoothing: grayscale;   /* Smooth text on Firefox macOS */
+  
+  /* Background gradient (this is overridden by App.css but kept as fallback) */
   background: linear-gradient(135deg, #000000 0%, #d9d7db 100%);
-  min-height: 100vh;
-  color: #333;
+  min-height: 100vh;  /* Ensure page fills at least full viewport height */
+  color: #333;        /* Default text color (overridden by App.css) */
 }
+
+/* ============================================================================
+   CODE ELEMENT STYLING
+   ============================================================================
+   
+   Styling for <code> elements (if used anywhere in the app).
+   Uses monospace font for code readability.
+*/
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

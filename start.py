@@ -260,6 +260,114 @@ def write_file(file_path, content):
         return {"success": False, "error": str(e)}
 
 @eel.expose
+def save_journal_file(journals_dir, filename, content):
+    """
+    Saves a journal entry to the file system.
+    
+    Creates the journals directory if it doesn't exist, then saves
+    the journal entry as a JSON file.
+    
+    Args:
+        journals_dir (str): Directory path where journals should be saved
+        filename (str): Name of the journal file (e.g., "Mon_Dec_01_2024.json")
+        content (str): JSON string content of the journal entry
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if save succeeded, False otherwise
+            - error (str): Error message (if failure)
+            - path (str): Full path to saved file (if success)
+    
+    Example (JavaScript):
+        const result = await eel.save_journal_file('/path/to/journals', 'entry.json', jsonContent)()
+    """
+    try:
+        # Normalize directory path (handle both forward and backslashes)
+        journals_dir = journals_dir.replace('\\', '/')
+        
+        # Create directory if it doesn't exist
+        os.makedirs(journals_dir, exist_ok=True)
+        
+        # Construct full file path
+        file_path = os.path.join(journals_dir, filename)
+        
+        # Write file
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        
+        return {
+            "success": True,
+            "path": file_path
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@eel.expose
+def load_journal_files(journals_dir):
+    """
+    Loads all journal entries from the file system.
+    
+    Scans the journals directory for JSON files and reads them.
+    Returns all journal entries found.
+    
+    Args:
+        journals_dir (str): Directory path where journals are stored
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if load succeeded, False otherwise
+            - entries (list): List of journal entry objects (if success)
+            - error (str): Error message (if failure)
+    
+    Example (JavaScript):
+        const result = await eel.load_journal_files('/path/to/journals')()
+        if (result.success) {
+            const entries = result.entries
+        }
+    """
+    try:
+        # Normalize directory path
+        journals_dir = journals_dir.replace('\\', '/')
+        
+        # Check if directory exists
+        if not os.path.exists(journals_dir):
+            return {
+                "success": True,
+                "entries": []
+            }
+        
+        entries = []
+        
+        # Scan directory for JSON files
+        for filename in os.listdir(journals_dir):
+            if filename.endswith('.json'):
+                file_path = os.path.join(journals_dir, filename)
+                
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        entry = json.loads(content)
+                        entries.append(entry)
+                except Exception as e:
+                    # Skip files that can't be read/parsed
+                    print(f"Warning: Could not read journal file {filename}: {e}")
+                    continue
+        
+        return {
+            "success": True,
+            "entries": entries
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "entries": []
+        }
+
+@eel.expose
 def show_notification(title, message):
     """
     Shows a system notification (placeholder - not fully implemented).
