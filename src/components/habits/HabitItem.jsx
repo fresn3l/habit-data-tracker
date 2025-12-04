@@ -70,11 +70,6 @@ function HabitItem({ habit, onToggle, onUpdate }) {
               🔔
             </span>
           )}
-          {habit.difficulty && (
-            <span className="habit-difficulty-badge" title={`Difficulty: ${habit.difficulty}/5`}>
-              {'⭐'.repeat(habit.difficulty)}
-            </span>
-          )}
           <span className="habit-category-badge" style={{ backgroundColor: category.bgColor, color: category.color }}>
             {category.name}
           </span>

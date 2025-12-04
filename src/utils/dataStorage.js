@@ -173,8 +173,6 @@ export const saveDayData = (dateKey, habits, weight = null) => {
       category: h.category,
       completed: h.completed,
       timeOfDay: h.timeOfDay || 'anytime',
-      difficulty: h.difficulty || null,
-      actualTimeSpent: h.actualTimeSpent || null,
     })),
     // Calculate completion statistics
     completedCount: habits.filter(h => h.completed).length,

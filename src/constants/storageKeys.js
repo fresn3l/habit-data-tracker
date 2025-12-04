@@ -85,3 +85,13 @@ export const STORAGE_KEY_NOTIFICATION_PERMISSION = 'notification-permission'
  */
 export const STORAGE_KEY_STREAKS = 'habit-tracker-streaks'
 
+/**
+ * Storage key for journal entries.
+ * Stores daily journal entries with text content, timer duration, and timestamps.
+ * 
+ * Structure: { [dateString]: { date: string, content: string, timerSeconds: number, timestamp: string } }
+ * 
+ * @constant {string}
+ * @default 'habit-tracker-journals'
+ */
+export const STORAGE_KEY_JOURNALS = 'habit-tracker-journals'

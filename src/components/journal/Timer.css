@@ -1,0 +1,131 @@
+/**
+ * Timer Component Styles
+ * 
+ * Styles for the 10-minute journaling timer component.
+ * Includes timer display, progress bar, and control buttons.
+ * 
+ * @module components/journal/Timer.css
+ */
+
+.journal-timer {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-elegant);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: var(--spacing-lg);
+}
+
+.timer-display {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.timer-time {
+  font-family: var(--font-modern);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--deep-navy);
+  line-height: 1;
+  margin-bottom: var(--spacing-xs);
+  letter-spacing: -2px;
+}
+
+.timer-status {
+  font-family: var(--font-modern);
+  font-size: 0.95rem;
+  color: var(--elegant-gray);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.timer-progress-container {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-lg);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%);
+  border-radius: 20px;
+  transition: width 1s linear;
+  box-shadow: 0 0 10px rgba(26, 26, 26, 0.3);
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.timer-btn {
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--font-modern);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.timer-btn-start {
+  background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+  color: white;
+}
+
+.timer-btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.timer-btn-pause {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.9) 0%, rgba(245, 158, 11, 0.7) 100%);
+  color: white;
+}
+
+.timer-btn-pause:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+.timer-btn-reset {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--deep-navy);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.timer-btn-reset:hover {
+  background: white;
+  border-color: #1A1A1A;
+  transform: translateY(-2px);
+}
+
+.timer-info {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  font-family: var(--font-modern);
+  font-size: 0.9rem;
+  color: var(--elegant-gray);
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .timer-time {
+    font-size: 2.5rem;
+  }
+  
+  .timer-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+

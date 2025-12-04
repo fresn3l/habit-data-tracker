@@ -38,3 +38,8 @@ __pycache__/
 
 # Eel web directory (contains built files)
 web/
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
