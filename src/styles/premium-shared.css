@@ -1,63 +1,147 @@
-/* Shared Premium Design Elements */
+/**
+ * Premium Shared Design System Styles
+ * 
+ * This file contains reusable CSS classes and components that are used
+ * throughout the application. These classes provide consistent styling
+ * for common UI patterns like modals, forms, buttons, and cards.
+ * 
+ * All classes use the premium design system with elegant styling,
+ * smooth animations, and sophisticated visual effects.
+ * 
+ * @fileoverview Shared premium design components
+ * @module styles/premium-shared.css
+ * @requires App.css (for CSS variables)
+ */
 
-/* Premium Modal/Overlay Base */
+/* ============================================================================
+   PREMIUM MODAL/OVERLAY SYSTEM
+   ============================================================================
+   
+   Modal dialogs are a common UI pattern throughout the app (habit details,
+   goal creation, data export, etc.). This system provides consistent
+   styling for all modals.
+*/
+
+/* ============================================================================
+   MODAL OVERLAY
+   ============================================================================
+   
+   The backdrop that appears behind modal dialogs. It:
+   - Darkens the background
+   - Blurs the content behind
+   - Centers the modal
+   - Provides fade-in animation
+*/
+
 .premium-overlay {
-  position: fixed;
+  position: fixed;  /* Fixed to viewport */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  
+  /* Semi-transparent dark background */
   background: rgba(10, 25, 41, 0.75);
+  
+  /* Blur effect on content behind overlay */
   backdrop-filter: blur(8px);
+  
+  /* Center modal content */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: var(--spacing-md);
+  
+  z-index: 1000;  /* Above all other content */
+  padding: var(--spacing-md);  /* Padding on small screens */
+  
+  /* Fade-in animation */
   animation: fadeIn 0.3s ease;
 }
 
+/* ============================================================================
+   FADE IN ANIMATION
+   ============================================================================
+   
+   Smooth fade-in effect for modal overlay appearance.
+*/
+
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity: 0;  /* Start invisible */
   }
   to {
-    opacity: 1;
+    opacity: 1;  /* Fade to fully visible */
   }
 }
 
+/* ============================================================================
+   MODAL CONTAINER
+   ============================================================================
+   
+   The actual modal dialog box. This is the white container that appears
+   on top of the overlay. Used for forms, confirmations, and detail views.
+*/
+
 .premium-modal {
+  /* White background with slight transparency for glassmorphism */
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 24px;
+  border-radius: 24px;  /* Rounded corners */
+  
   width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-premium);
+  max-width: 600px;     /* Maximum width for readability */
+  max-height: 90vh;     /* Don't exceed viewport height */
+  overflow-y: auto;     /* Scroll if content is too tall */
+  
+  box-shadow: var(--shadow-premium);  /* Strong shadow for depth */
   border: 1px solid rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);        /* Glassmorphism effect */
+  
+  /* Slide-up animation */
   animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* ============================================================================
+   SLIDE UP ANIMATION
+   ============================================================================
+   
+   Modal slides up from below while fading in. Creates a polished entrance.
+*/
+
 @keyframes slideUp {
   from {
-    transform: translateY(30px);
-    opacity: 0;
+    transform: translateY(30px);  /* Start 30px below */
+    opacity: 0;                   /* Start invisible */
   }
   to {
-    transform: translateY(0);
-    opacity: 1;
+    transform: translateY(0);     /* Move to final position */
+    opacity: 1;                   /* Fade in */
   }
 }
 
+/* ============================================================================
+   MODAL HEADER
+   ============================================================================
+   
+   The top section of modal dialogs. Contains:
+   - Modal title
+   - Close button
+*/
+
 .premium-modal-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* Title on left, close button on right */
   align-items: center;
   padding: var(--spacing-lg);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);  /* Separator line */
   position: relative;
 }
+
+/* ============================================================================
+   MODAL HEADER ACCENT LINE
+   ============================================================================
+   
+   Subtle gradient line at bottom of header for visual polish.
+*/
 
 .premium-modal-header::after {
   content: '';
@@ -66,106 +150,226 @@
   left: 0;
   right: 0;
   height: 1px;
+  
+  /* Gradient line that fades in and out */
   background: linear-gradient(90deg, transparent, #1A1A1A, transparent);
 }
 
+/* ============================================================================
+   MODAL TITLE
+   ============================================================================
+   
+   The heading inside modal headers. Uses elegant serif font to match
+   the app's premium aesthetic.
+*/
+
 .premium-modal-header h2 {
-  font-family: var(--font-elegant);
-  font-size: 1.875rem;
+  font-family: var(--font-elegant);  /* Elegant serif font */
+  font-size: 1.875rem;                /* Large, prominent size */
   font-weight: 600;
-  color: var(--deep-navy);
+  color: var(--deep-navy);           /* Dark color for contrast */
   margin: 0;
   letter-spacing: 1px;
 }
 
+/* ============================================================================
+   MODAL CLOSE BUTTON
+   ============================================================================
+   
+   The X button to close modals. Positioned in top-right corner of header.
+   Has hover animation (rotates 90 degrees).
+*/
+
 .premium-close-btn {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 1.75rem;
+  font-size: 1.75rem;  /* Large X character */
   color: #0A0A0A;
   cursor: pointer;
   padding: 0;
   width: 36px;
   height: 36px;
+  
+  /* Center the X character */
   display: flex;
   align-items: center;
   justify-content: center;
+  
   border-radius: 10px;
   transition: var(--transition-smooth);
 }
 
+/* ============================================================================
+   CLOSE BUTTON HOVER EFFECT
+   ============================================================================
+   
+   On hover, the close button darkens and rotates 90 degrees for visual feedback.
+*/
+
 .premium-close-btn:hover {
   background: rgba(0, 0, 0, 0.2);
   border-color: #1A1A1A;
-  transform: rotate(90deg);
+  transform: rotate(90deg);  /* Rotate on hover */
 }
 
-/* Premium Form Elements */
+/* ============================================================================
+   PREMIUM FORM SYSTEM
+   ============================================================================
+   
+   Styling for form elements used throughout the app (goal forms, todo forms,
+   habit settings, etc.). Provides consistent, elegant form styling.
+*/
+
+/* ============================================================================
+   FORM CONTAINER
+   ============================================================================
+   
+   Container for form elements. Adds padding around form content.
+*/
+
 .premium-form {
   padding: var(--spacing-lg);
 }
 
+/* ============================================================================
+   FORM GROUP
+   ============================================================================
+   
+   Groups a label and input together. Adds spacing between form fields.
+*/
+
 .premium-form-group {
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);  /* Space between form fields */
 }
 
+/* ============================================================================
+   FORM LABEL
+   ============================================================================
+   
+   Labels for form inputs. Styled with uppercase, bold text for clarity.
+*/
+
 .premium-form-label {
-  display: block;
+  display: block;  /* Block element for proper spacing */
   margin-bottom: var(--spacing-xs);
+  
   font-family: var(--font-modern);
   font-weight: 600;
   color: var(--deep-navy);
   font-size: 0.9rem;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  text-transform: uppercase;  /* ALL CAPS for emphasis */
 }
+
+/* ============================================================================
+   FORM INPUTS (Text, Select, Textarea)
+   ============================================================================
+   
+   Styling for all form input types. Creates consistent, elegant input fields
+   with smooth focus states.
+*/
 
 .premium-form-input,
 .premium-form-select,
 .premium-form-textarea {
-  width: 100%;
+  width: 100%;  /* Full width of container */
   padding: var(--spacing-sm) var(--spacing-md);
+  
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 12px;
+  
   font-family: var(--font-modern);
   font-size: 1rem;
   color: var(--charcoal);
-  background: var(--ivory);
+  background: var(--ivory);  /* Light ivory background */
+  
   transition: var(--transition-smooth);
 }
+
+/* ============================================================================
+   FORM INPUT FOCUS STATE
+   ============================================================================
+   
+   When user focuses on an input, it gets:
+   - Darker border
+   - White background
+   - Subtle glow effect
+*/
 
 .premium-form-input:focus,
 .premium-form-select:focus,
 .premium-form-textarea:focus {
-  outline: none;
-  border-color: #1A1A1A;
+  outline: none;  /* Remove default browser outline */
+  border-color: #1A1A1A;  /* Dark border */
   background: white;
+  
+  /* Subtle glow effect */
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Premium Buttons */
+/* ============================================================================
+   PREMIUM BUTTON SYSTEM
+   ============================================================================
+   
+   Reusable button styles for actions throughout the app. Two variants:
+   - Primary: Dark, prominent buttons for main actions
+   - Secondary: Light, outlined buttons for secondary actions
+*/
+
+/* ============================================================================
+   BUTTON BASE STYLES
+   ============================================================================
+   
+   Base styling applied to all premium buttons.
+*/
+
 .premium-btn {
-  padding: 0.875rem 2rem;
+  padding: 0.875rem 2rem;  /* Comfortable clickable area */
   border: none;
   border-radius: 14px;
+  
   font-family: var(--font-modern);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  
   transition: var(--transition-smooth);
   letter-spacing: 0.5px;
   box-shadow: var(--shadow-subtle);
 }
+
+/* ============================================================================
+   PRIMARY BUTTON
+   ============================================================================
+   
+   Primary action button (e.g., "Save", "Create", "Submit").
+   Uses dark gradient background for prominence.
+*/
 
 .premium-btn-primary {
   background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
   color: white;
 }
 
+/* ============================================================================
+   PRIMARY BUTTON HOVER STATE
+   ============================================================================
+   
+   Lifts up and gets stronger shadow on hover for visual feedback.
+*/
+
 .premium-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);  /* Lift up */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);  /* Stronger shadow */
 }
+
+/* ============================================================================
+   SECONDARY BUTTON
+   ============================================================================
+   
+   Secondary action button (e.g., "Cancel", "Close").
+   Uses light background with border for less prominence.
+*/
 
 .premium-btn-secondary {
   background: rgba(255, 255, 255, 0.9);
@@ -173,17 +377,31 @@
   border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
+/* ============================================================================
+   SECONDARY BUTTON HOVER STATE
+   ============================================================================
+*/
+
 .premium-btn-secondary:hover {
   background: white;
   border-color: #1A1A1A;
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* Lift up on hover */
 }
 
-/* Premium Page Headers */
+/* ============================================================================
+   PREMIUM PAGE HEADER
+   ============================================================================
+   
+   Styling for page headers used on various pages (Goals, Todos, Analytics, etc.).
+   Provides consistent header appearance throughout the app.
+*/
+
 .premium-page-header {
   text-align: center;
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg);
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-radius: 24px;
@@ -191,32 +409,57 @@
   box-shadow: var(--shadow-elegant);
 }
 
+/* ============================================================================
+   PAGE HEADER TITLE
+   ============================================================================
+   
+   The main heading in page headers. Uses elegant serif font with gradient text.
+*/
+
 .premium-page-header h2 {
   font-family: var(--font-elegant);
   font-size: 2.75rem;
   font-weight: 600;
+  
+  /* Gradient text effect */
   background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  
   letter-spacing: 2px;
   margin-bottom: var(--spacing-sm);
 }
 
-/* Premium Cards */
+/* ============================================================================
+   PREMIUM CARD
+   ============================================================================
+   
+   Reusable card component for displaying content in elevated containers.
+   Used for stat cards, info boxes, and content sections.
+*/
+
 .premium-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95);  /* Nearly white background */
   border-radius: 24px;
   padding: var(--spacing-lg);
+  
   box-shadow: var(--shadow-elegant);
   border: 1px solid rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  
   transition: var(--transition-elegant);
 }
 
-.premium-card:hover {
-  box-shadow: var(--shadow-premium);
-  border-color: #1A1A1A;
-  transform: translateY(-2px);
-}
+/* ============================================================================
+   CARD HOVER EFFECT
+   ============================================================================
+   
+   Cards lift up and get stronger shadow on hover for interactivity feedback.
+*/
 
+.premium-card:hover {
+  box-shadow: var(--shadow-premium);  /* Stronger shadow */
+  border-color: #1A1A1A;              /* Darker border */
+  transform: translateY(-2px);        /* Lift up */
+}

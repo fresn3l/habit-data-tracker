@@ -72,6 +72,22 @@ EOF
 # Create PkgInfo
 echo "APPL????" > "${CONTENTS_DIR}/PkgInfo"
 
+# Copy app icon if it exists
+ICON_SOURCE="icon.icns"
+ICON_DEST="${RESOURCES_DIR}/AppIcon.icns"
+
+if [ -f "$ICON_SOURCE" ]; then
+    echo "Copying app icon..."
+    cp "$ICON_SOURCE" "$ICON_DEST"
+    echo "✅ App icon copied to bundle"
+else
+    echo "⚠️  Warning: icon.icns not found in project root"
+    echo "   App will use default macOS app icon"
+    echo "   To add an icon:"
+    echo "     1. Place icon.icns in project root, or"
+    echo "     2. Run: ./create_icon.sh your_icon.png"
+fi
+
 echo "✅ App bundle created at: $BUNDLE_DIR"
 
 # Ask if user wants to install to Applications

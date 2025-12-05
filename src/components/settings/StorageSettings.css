@@ -1,0 +1,236 @@
+/**
+ * Storage Settings Component Styles
+ * 
+ * Styles for the desktop file storage settings UI.
+ */
+
+.storage-settings {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.storage-settings h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1.5rem 0;
+}
+
+.storage-not-available {
+  padding: 2rem;
+  text-align: center;
+  background: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  color: #92400e;
+}
+
+.storage-not-available p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.storage-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.storage-message.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+.storage-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.storage-message.info {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #3b82f6;
+}
+
+.setting-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.setting-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.setting-label-text {
+  user-select: none;
+}
+
+.setting-description {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding-left: 2rem;
+}
+
+.file-path-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.file-path-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Monaco', 'Menlo', monospace;
+  transition: border-color 0.2s ease;
+}
+
+.file-path-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.file-path-input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.file-path-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.storage-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.storage-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-btn {
+  background: #667eea;
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #5568d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.load-btn {
+  background: #10b981;
+  color: white;
+}
+
+.load-btn:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.setting-hint {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  padding-left: 0.5rem;
+}
+
+.setting-hint code {
+  background: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.85rem;
+  color: #1f2937;
+}
+
+.setting-info {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.setting-info h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.setting-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #4b5563;
+  line-height: 1.8;
+}
+
+.setting-info li {
+  margin-bottom: 0.75rem;
+}
+
+.setting-info li:last-child {
+  margin-bottom: 0;
+}
+
+.setting-info strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .storage-settings {
+    padding: 1.5rem;
+  }
+  
+  .file-path-actions {
+    flex-direction: column;
+  }
+  
+  .storage-btn {
+    width: 100%;
+  }
+}
+

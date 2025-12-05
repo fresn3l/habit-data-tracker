@@ -85,3 +85,25 @@ export const STORAGE_KEY_NOTIFICATION_PERMISSION = 'notification-permission'
  */
 export const STORAGE_KEY_STREAKS = 'habit-tracker-streaks'
 
+/**
+ * Storage key for journal entries.
+ * Stores daily journal entries with text content, timer duration, and timestamps.
+ * 
+ * Structure: { [dateString]: { date: string, content: string, timerSeconds: number, timestamp: string } }
+ * 
+ * @constant {string}
+ * @default 'habit-tracker-journals'
+ */
+export const STORAGE_KEY_JOURNALS = 'habit-tracker-journals'
+
+/**
+ * Storage key for habit templates.
+ * Stores habit template definitions (structure, metadata) that are
+ * instantiated each day with completion status.
+ * 
+ * Structure: Array of habit template objects with id, name, emoji, category, timeOfDay, etc.
+ * 
+ * @constant {string}
+ * @default 'habit-tracker-templates'
+ */
+export const STORAGE_KEY_HABIT_TEMPLATES = 'habit-tracker-templates'

@@ -1,0 +1,122 @@
+/**
+ * Settings Page Styles
+ * 
+ * Styles for the main settings page layout.
+ */
+
+.settings-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.settings-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(155, 164, 225);
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settings-section {
+  width: 100%;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.settings-description {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.settings-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.export-btn {
+  background: #667eea;
+  color: white;
+}
+
+.export-btn:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.import-btn {
+  background: #10b981;
+  color: white;
+}
+
+.import-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.backup-btn {
+  background: #f59e0b;
+  color: white;
+}
+
+.backup-btn:hover {
+  background: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+@media (max-width: 640px) {
+  .settings-page {
+    padding: 1rem;
+  }
+  
+  .settings-actions {
+    flex-direction: column;
+  }
+  
+  .settings-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

@@ -46,6 +46,8 @@ const GoalsPage = lazy(() => import('./pages/GoalsPage'))
 const ToDoPage = lazy(() => import('./pages/ToDoPage'))
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
 const ReviewsPage = lazy(() => import('./pages/ReviewsPage'))
+const JournalPage = lazy(() => import('./pages/JournalPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 
 // ============================================================================
 // MAIN APP COMPONENT
@@ -75,6 +77,7 @@ function App() {
    * - 'todos': Todo list management page
    * - 'analytics': Data analytics and visualizations page
    * - 'reviews': Weekly/monthly review page
+   * - 'journal': Daily journal entry page
    * 
    * @type {string}
    */
@@ -164,7 +167,7 @@ function App() {
       
       <header className="app-header">
         {/* App Title */}
-        <h1>✨ Personal Tracker</h1>
+        <h1>Deck Log</h1>
         
         {/* Current Date Display */}
         <p className="date">{date}</p>
@@ -218,6 +221,24 @@ function App() {
           >
             Reviews
           </button>
+          
+          {/* Journal Tab */}
+          <button 
+            className={`main-tab ${currentPage === 'journal' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('journal')}
+            aria-label="Navigate to Journal page"
+          >
+            Journal
+          </button>
+          
+          {/* Settings Tab */}
+          <button 
+            className={`main-tab ${currentPage === 'settings' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('settings')}
+            aria-label="Navigate to Settings page"
+          >
+            Settings
+          </button>
         </div>
       </header>
 
@@ -237,6 +258,8 @@ function App() {
           {currentPage === 'todos' && <ToDoPage />}
           {currentPage === 'analytics' && <AnalyticsPage />}
           {currentPage === 'reviews' && <ReviewsPage />}
+          {currentPage === 'journal' && <JournalPage />}
+          {currentPage === 'settings' && <SettingsPage />}
         </Suspense>
       </main>
 

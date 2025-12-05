@@ -106,7 +106,32 @@ function ToDoPage() {
     return getTodosByPriority(filtered)
   }
 
+  /**
+   * Group todos by priority for display in sections.
+   */
+  const groupTodosByPriority = (todos) => {
+    const groups = {
+      now: [],
+      next: [],
+      later: []
+    }
+    
+    todos.forEach(todo => {
+      const priority = todo.priority || 'next'
+      if (priority === 'now') {
+        groups.now.push(todo)
+      } else if (priority === 'next') {
+        groups.next.push(todo)
+      } else {
+        groups.later.push(todo)
+      }
+    })
+    
+    return groups
+  }
+
   const filteredTodos = getFilteredTodos()
+  const todosByPriority = groupTodosByPriority(filteredTodos)
   const overdueTodos = getOverdueTodos(todos)
   const activeCount = todos.filter(t => !t.completed).length
   const completedCount = todos.filter(t => t.completed).length
@@ -195,15 +220,59 @@ function ToDoPage() {
           </div>
         ) : (
           <div className="todos-list">
-            {filteredTodos.map(todo => (
-              <ToDoItem
-                key={todo.id}
-                todo={todo}
-                onToggle={handleTodoToggle}
-                onEdit={handleTodoEdit}
-                onDelete={handleTodoDelete}
-              />
-            ))}
+            {/* Now Priority Section */}
+            {todosByPriority.now.length > 0 && (
+              <div className="priority-section">
+                <h3 className="priority-section-title priority-now">
+                  🔴 Now ({todosByPriority.now.length})
+                </h3>
+                {todosByPriority.now.map(todo => (
+                  <ToDoItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggle={handleTodoToggle}
+                    onEdit={handleTodoEdit}
+                    onDelete={handleTodoDelete}
+                  />
+                ))}
+              </div>
+            )}
+            
+            {/* Next Priority Section */}
+            {todosByPriority.next.length > 0 && (
+              <div className="priority-section">
+                <h3 className="priority-section-title priority-next">
+                  🟠 Next ({todosByPriority.next.length})
+                </h3>
+                {todosByPriority.next.map(todo => (
+                  <ToDoItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggle={handleTodoToggle}
+                    onEdit={handleTodoEdit}
+                    onDelete={handleTodoDelete}
+                  />
+                ))}
+              </div>
+            )}
+            
+            {/* Later Priority Section */}
+            {todosByPriority.later.length > 0 && (
+              <div className="priority-section">
+                <h3 className="priority-section-title priority-later">
+                  🔵 Later ({todosByPriority.later.length})
+                </h3>
+                {todosByPriority.later.map(todo => (
+                  <ToDoItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggle={handleTodoToggle}
+                    onEdit={handleTodoEdit}
+                    onDelete={handleTodoDelete}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

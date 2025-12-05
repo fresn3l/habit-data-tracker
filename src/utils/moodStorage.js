@@ -13,6 +13,14 @@ export const saveMood = (dateKey, mood, notes = '') => {
     timestamp: new Date().toISOString(),
   }
   localStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(allMoods))
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
+  
   return allMoods[dateKey]
 }
 

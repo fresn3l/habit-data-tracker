@@ -68,6 +68,16 @@
   font-weight: 500;
 }
 
+.goal-todo-count {
+  font-size: 0.85rem;
+  color: #059669;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
 .goal-progress {
   display: flex;
   align-items: center;

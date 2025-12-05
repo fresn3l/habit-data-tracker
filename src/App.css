@@ -1,114 +1,254 @@
-/* Premium Design System - Sophisticated & Elegant */
+/**
+ * Personal Tracker - Main Application Styles
+ * 
+ * This file contains all global styles for the Personal Tracker application.
+ * It defines:
+ * - CSS custom properties (design tokens) for the premium design system
+ * - Global layout and typography
+ * - App header and navigation styles
+ * - Habit grid layout and category columns
+ * - Responsive breakpoints
+ * 
+ * The design uses a sophisticated black/gray color palette with elegant
+ * typography and smooth animations. All colors are defined as CSS variables
+ * for easy theming and consistency.
+ * 
+ * @fileoverview Main application stylesheet
+ * @module App.css
+ */
 
+/* ============================================================================
+   DESIGN SYSTEM - CSS CUSTOM PROPERTIES
+   ============================================================================
+   
+   These CSS variables define the entire design system. They're used throughout
+   the app for consistent styling. Changing these values will update the entire
+   app's appearance.
+*/
+
+/* Import Google Fonts for premium typography */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Premium Color Palette - Black Shades */
-  --luxury-gold: #1A1A1A;
-  --luxury-gold-light: #404040;
-  --luxury-gold-dark: #0A0A0A;
-  --deep-navy: #0A1929;
-  --navy-blue: #132F4C;
-  --charcoal: #1A1A1A;
-  --silver: #C0C0C0;
-  --platinum: #E5E4E2;
-  --ivory: #F8F6F0;
-  --cream: #FFFEF7;
-  --rich-black: #050505;
-  --elegant-gray: #4A4A4A;
-  --light-gray: #F5F5F5;
+  /* ========================================================================
+     COLOR PALETTE - Black & Gray Shades
+     ========================================================================
+     
+     The app uses a sophisticated black/gray palette instead of colors.
+     This creates an elegant, premium feel while maintaining readability.
+  */
   
-  /* Black Gradient Shades */
-  --black-light: #2A2A2A;
-  --black-medium: #1A1A1A;
-  --black-dark: #0D0D0D;
-  --black-soft: #333333;
-  --accent-gray: #666666;
+  /* Base black/gray colors for text and backgrounds */
+  --luxury-gold: #1A1A1A;          /* Primary dark gray for text */
+  --luxury-gold-light: #404040;    /* Lighter gray for secondary text */
+  --luxury-gold-dark: #0A0A0A;     /* Darkest gray for backgrounds */
+  --deep-navy: #0A1929;            /* Deep navy for headers */
+  --navy-blue: #132F4C;            /* Lighter navy for accents */
+  --charcoal: #1A1A1A;             /* Charcoal for body text */
   
-  /* Accent Colors */
-  --emerald: #10B981;
-  --sapphire: #3B82F6;
-  --amber: #F59E0B;
+  /* Light/neutral colors for contrast */
+  --silver: #C0C0C0;               /* Silver for borders/accents */
+  --platinum: #E5E4E2;             /* Platinum for light text on dark backgrounds */
+  --ivory: #F8F6F0;                /* Ivory for form backgrounds */
+  --cream: #FFFEF7;                /* Cream for cards/modals */
+  --rich-black: #050505;           /* Rich black for maximum contrast */
+  --elegant-gray: #4A4A4A;         /* Elegant gray for secondary elements */
+  --light-gray: #F5F5F5;           /* Light gray for backgrounds */
   
-  /* Typography */
-  --font-elegant: 'Cormorant Garamond', serif;
-  --font-modern: 'Inter', sans-serif;
+  /* Black gradient shades for depth and texture */
+  --black-light: #2A2A2A;          /* Light black for gradients */
+  --black-medium: #1A1A1A;         /* Medium black for gradients */
+  --black-dark: #0D0D0D;           /* Dark black for gradients */
+  --black-soft: #333333;           /* Soft black for subtle backgrounds */
+  --accent-gray: #666666;          /* Accent gray for highlights */
   
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
+  /* Accent colors (used sparingly for emphasis) */
+  --emerald: #10B981;              /* Emerald green for success states */
+  --sapphire: #3B82F6;             /* Sapphire blue for info/links */
+  --amber: #F59E0B;                /* Amber for warnings/highlights */
   
-  /* Shadows */
-  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-elegant: 0 4px 20px rgba(0, 0, 0, 0.12);
-  --shadow-premium: 0 8px 32px rgba(0, 0, 0, 0.16);
-  --shadow-glow: 0 0 40px rgba(0, 0, 0, 0.25);
+  /* ========================================================================
+     TYPOGRAPHY SYSTEM
+     ========================================================================
+     
+     Two font families are used:
+     - Elegant serif (Cormorant Garamond) for headings and emphasis
+     - Modern sans-serif (Inter) for body text and UI elements
+  */
   
-  /* Transitions */
-  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-elegant: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  --font-elegant: 'Cormorant Garamond', serif;  /* For headings, titles, elegant text */
+  --font-modern: 'Inter', sans-serif;            /* For body text, buttons, UI */
+  
+  /* ========================================================================
+     SPACING SCALE
+     ========================================================================
+     
+     Consistent spacing scale used throughout the app. Based on 0.5rem (8px)
+     increments for visual harmony.
+  */
+  
+  --spacing-xs: 0.5rem;   /* 8px - Tight spacing (between icons and text) */
+  --spacing-sm: 1rem;     /* 16px - Small spacing (between related elements) */
+  --spacing-md: 1.5rem;   /* 24px - Medium spacing (between sections) */
+  --spacing-lg: 2rem;     /* 32px - Large spacing (between major sections) */
+  --spacing-xl: 3rem;     /* 48px - Extra large spacing (page margins) */
+  
+  /* ========================================================================
+     SHADOW SYSTEM
+     ========================================================================
+     
+     Layered shadow system for depth and elevation. Subtle shadows create
+     the illusion of depth without being overwhelming.
+  */
+  
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);      /* Subtle depth for cards */
+  --shadow-elegant: 0 4px 20px rgba(0, 0, 0, 0.12);    /* Elegant depth for modals */
+  --shadow-premium: 0 8px 32px rgba(0, 0, 0, 0.16);    /* Premium depth for overlays */
+  --shadow-glow: 0 0 40px rgba(0, 0, 0, 0.25);         /* Glowing effect for active states */
+  
+  /* ========================================================================
+     TRANSITIONS & ANIMATIONS
+     ========================================================================
+     
+     Smooth, elegant transitions using cubic-bezier easing functions.
+     These create polished, professional animations throughout the app.
+  */
+  
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);      /* Standard smooth transition */
+  --transition-elegant: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);  /* Elegant, slower transition */
 }
+
+/* ============================================================================
+   GLOBAL RESET
+   ============================================================================
+   
+   Reset default browser styles for consistent cross-browser appearance.
+*/
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-/* BACKGROUND GRADIENT */
-body {
-  font-family: var(--font-modern);
-  background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%);
-  background-attachment: fixed;
-  color: var(--charcoal);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;  /* Include padding/border in element width calculations */
 }
 
-.app {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: var(--spacing-lg);
-  min-height: 100vh;
-  position: relative;
+/* ============================================================================
+   BODY STYLING
+   ============================================================================
+   
+   The body element sets up the global page background and typography.
+   The gradient background creates a sophisticated dark theme that's easy on
+   the eyes. The background-attachment: fixed ensures the gradient stays in
+   place when scrolling.
+*/
+
+body {
+  font-family: var(--font-modern);  /* Use modern sans-serif as default */
+  
+  /* Sophisticated black gradient background - shades of black from dark to darker */
+  background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%);
+  background-attachment: fixed;  /* Keep gradient fixed while content scrolls */
+  
+  color: var(--charcoal);
+  line-height: 1.6;  /* Comfortable reading line height */
+  
+  /* Font smoothing for crisp text on all browsers */
+  -webkit-font-smoothing: antialiased;  /* Safari/Chrome */
+  -moz-osx-font-smoothing: grayscale;   /* Firefox macOS */
 }
+
+/* ============================================================================
+   MAIN APP CONTAINER
+   ============================================================================
+   
+   The .app class is the root container for the entire application.
+   It centers content, sets max-width for readability, and creates the
+   main layout structure.
+*/
+
+.app {
+  max-width: 1400px;        /* Maximum content width for optimal readability */
+  margin: 0 auto;            /* Center the container horizontally */
+  padding: var(--spacing-lg); /* Add spacing around content */
+  min-height: 100vh;         /* Ensure app fills at least full viewport height */
+  position: relative;        /* Enable absolute positioning for child elements */
+}
+
+/* ============================================================================
+   BACKGROUND OVERLAY EFFECT
+   ============================================================================
+   
+   Adds subtle radial gradient overlays to the background for visual interest.
+   These create depth and prevent the background from being flat.
+   pointer-events: none ensures clicks pass through to content below.
+*/
 
 .app::before {
   content: '';
-  position: fixed;
+  position: fixed;  /* Fixed to viewport, not scrollable */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  
+  /* Two radial gradients create subtle light spots on the dark background */
   background: 
     radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+  
+  pointer-events: none;  /* Don't intercept mouse events */
+  z-index: 0;            /* Behind all content */
 }
 
+/* ============================================================================
+   MAIN CONTENT AREA
+   ============================================================================
+   
+   The main content area where pages are rendered. It sits above the
+   background overlay (z-index: 1) to ensure content is always visible.
+*/
+
 .app-main {
-  max-width: 100%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  max-width: 100%;      /* Take full width of parent container */
+  margin: 0 auto;       /* Center if narrower than parent */
+  position: relative;   /* Enable absolute positioning for children */
+  z-index: 1;           /* Above background overlay */
 }
+
+/* ============================================================================
+   APP HEADER
+   ============================================================================
+   
+   The header contains:
+   - App title ("✨ Personal Tracker")
+   - Current date
+   - Main navigation tabs (Habits, Goals, To Do, Analytics, Reviews)
+   
+   Uses glassmorphism (backdrop-filter blur) for a modern, elegant look.
+*/
 
 .app-header {
   text-align: center;
-  margin-bottom: var(--spacing-xl);
-  padding: var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  box-shadow: var(--shadow-elegant);
+  margin-bottom: var(--spacing-xl);  /* Space before main content */
+  padding: var(--spacing-lg);         /* Internal spacing */
+  
+  /* Glassmorphism effect - frosted glass appearance */
+  background: rgba(255, 255, 255, 0.03);  /* Semi-transparent white */
+  backdrop-filter: blur(20px);             /* Blur background behind */
+  
+  border-radius: 24px;                     /* Rounded corners */
+  border: 1px solid rgba(212, 175, 55, 0.1);  /* Subtle border */
+  box-shadow: var(--shadow-elegant);       /* Elegant shadow for depth */
   position: relative;
-  overflow: hidden;
+  overflow: hidden;                        /* Hide overflow from pseudo-elements */
 }
+
+/* ============================================================================
+   HEADER TOP BORDER ACCENT
+   ============================================================================
+   
+   Adds a subtle gradient line at the top of the header for visual polish.
+   Creates a premium, refined appearance.
+*/
 
 .app-header::before {
   content: '';
@@ -117,96 +257,197 @@ body {
   left: 0;
   right: 0;
   height: 1px;
+  
+  /* Gradient line that fades in and out - subtle accent */
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
+/* ============================================================================
+   APP TITLE (H1)
+   ============================================================================
+   
+   The main app title "✨ Personal Tracker" displayed in the header.
+   Uses elegant serif font with gradient text effect for premium feel.
+*/
+
 .app-header h1 {
-  font-family: var(--font-elegant);
-  font-size: 3.5rem;
-  font-weight: 600;
-  margin-bottom: var(--spacing-xs);
+  font-family: var(--font-elegant);  /* Elegant serif font */
+  font-size: 3.5rem;                  /* Large, prominent size */
+  font-weight: 600;                   /* Semi-bold for presence */
+  margin-bottom: var(--spacing-xs);   /* Small space below title */
+  
+  /* Gradient text effect - white to gray gradient */
   background: linear-gradient(135deg, #FFFFFF 0%, #E5E4E2 50%, #C0C0C0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;      /* Clip gradient to text shape */
+  -webkit-text-fill-color: transparent; /* Hide default color, show gradient */
   background-clip: text;
-  letter-spacing: 2px;
+  
+  letter-spacing: 2px;  /* Increased letter spacing for elegance */
   position: relative;
 }
 
+/* ============================================================================
+   DATE DISPLAY
+   ============================================================================
+   
+   Shows the current date below the app title. Uses elegant font to match
+   the premium aesthetic.
+*/
+
 .date {
-  font-family: var(--font-elegant);
-  font-size: 1.25rem;
-  color: var(--platinum);
-  font-weight: 300;
-  letter-spacing: 1px;
-  margin-bottom: var(--spacing-md);
-  opacity: 0.9;
+  font-family: var(--font-elegant);  /* Match title font for consistency */
+  font-size: 1.25rem;                 /* Readable but not too large */
+  color: var(--platinum);             /* Light color for dark background */
+  font-weight: 300;                   /* Light weight for subtlety */
+  letter-spacing: 1px;                /* Slight spacing for elegance */
+  margin-bottom: var(--spacing-md);   /* Space before navigation */
+  opacity: 0.9;                       /* Slightly transparent for hierarchy */
 }
+
+/* ============================================================================
+   MAIN NAVIGATION TABS
+   ============================================================================
+   
+   Top-level navigation between main app sections:
+   - Habits
+   - Goals
+   - To Do
+   - Analytics
+   - Reviews
+   
+   Uses flexbox for responsive layout that wraps on smaller screens.
+*/
 
 .main-nav-tabs {
   display: flex;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-  flex-wrap: wrap;
+  justify-content: center;  /* Center tabs horizontally */
+  gap: var(--spacing-sm);   /* Space between tabs */
+  margin-top: var(--spacing-md);  /* Space above tabs */
+  flex-wrap: wrap;          /* Allow tabs to wrap on small screens */
 }
 
+/* ============================================================================
+   NAVIGATION TAB BUTTON
+   ============================================================================
+   
+   Individual navigation tab button. Styled with glassmorphism to match
+   the header. Has hover effects and active state styling.
+*/
+
 .main-tab {
-  padding: 1rem 2.5rem;
+  padding: 1rem 2.5rem;     /* Comfortable clickable area */
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
+  
   color: var(--platinum);
   font-family: var(--font-modern);
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.5px;
   cursor: pointer;
-  transition: var(--transition-smooth);
-  backdrop-filter: blur(10px);
+  
+  transition: var(--transition-smooth);  /* Smooth hover transitions */
+  backdrop-filter: blur(10px);           /* Frosted glass effect */
   position: relative;
-  overflow: hidden;
+  overflow: hidden;                      /* Hide shine effect overflow */
 }
+
+/* ============================================================================
+   TAB SHINE EFFECT (Hover Animation)
+   ============================================================================
+   
+   Creates a subtle "shine" effect that sweeps across the tab on hover.
+   The shine starts off-screen left and moves to off-screen right.
+*/
 
 .main-tab::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: -100%;  /* Start off-screen to the left */
   width: 100%;
   height: 100%;
+  
+  /* Shine gradient that moves across */
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transition: var(--transition-smooth);
 }
 
+/* On hover, move shine from left to right */
 .main-tab:hover::before {
-  left: 100%;
+  left: 100%;  /* End off-screen to the right */
 }
+
+/* ============================================================================
+   TAB HOVER STATE
+   ============================================================================
+   
+   When hovering over a tab, it becomes more prominent with:
+   - Lighter background
+   - Brighter border
+   - Slight upward movement
+   - Stronger shadow
+*/
 
 .main-tab:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* Lift up slightly */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* ============================================================================
+   TAB ACTIVE STATE
+   ============================================================================
+   
+   The currently selected tab gets special styling to show it's active.
+   Uses gradient background and glowing shadow for emphasis.
+*/
+
 .main-tab.active {
+  /* Gradient background for active tab */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
   border-color: rgba(255, 255, 255, 0.4);
   color: white;
-  box-shadow: var(--shadow-glow);
-  font-weight: 600;
+  box-shadow: var(--shadow-glow);  /* Glowing effect */
+  font-weight: 600;                 /* Bolder text */
 }
 
+/* ============================================================================
+   HABITS CONTAINER MAX WIDTH
+   ============================================================================
+   
+   The habits container has an optimal max-width for the single-column layout
+   where categories are stacked vertically and habits take full rows.
+*/
+
 .app-main .habits-container {
-  max-width: 1600px;
+  max-width: 900px;  /* Optimal width for single-column layout */
   margin: 0 auto;
 }
+
+/* ============================================================================
+   TIME-BASED GREETING
+   ============================================================================
+   
+   The greeting message that changes based on time of day:
+   - "Good morning! What habits are we taking care of now?"
+   - "Good afternoon! Let's keep up those good habits!"
+   - "Good evening! Time for your evening habits!"
+   - "Late night! Don't forget your nighttime habits!"
+   
+   Styled with glassmorphism to match the header aesthetic.
+*/
 
 .time-greeting {
   text-align: center;
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-lg);
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(20px);
   border-radius: 20px;
@@ -214,12 +455,29 @@ body {
   box-shadow: var(--shadow-elegant);
 }
 
+/* ============================================================================
+   GREETING EMOJI
+   ============================================================================
+   
+   The emoji that represents the time of day (🌅 morning, ☀️ afternoon, etc.)
+   Displayed large and prominently above the greeting message.
+*/
+
 .greeting-emoji {
-  font-size: 3rem;
-  display: block;
+  font-size: 3rem;         /* Large, eye-catching size */
+  display: block;          /* Block element for spacing */
   margin-bottom: var(--spacing-sm);
+  
+  /* Drop shadow for depth and separation from background */
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
+
+/* ============================================================================
+   GREETING MESSAGE TEXT
+   ============================================================================
+   
+   The actual greeting text message. Uses elegant font to match the app title.
+*/
 
 .greeting-message {
   font-family: var(--font-elegant);
@@ -230,19 +488,42 @@ body {
   letter-spacing: 1px;
 }
 
+/* ============================================================================
+   HABIT FILTER BUTTONS
+   ============================================================================
+   
+   Buttons to filter habits by time of day:
+   - "Current Time" - Shows habits relevant to current time
+   - "Morning" - Shows morning habits
+   - "Night" - Shows night habits
+   - "All" - Shows all habits
+   
+   Uses flexbox for responsive horizontal layout.
+*/
+
 .habit-filters {
   display: flex;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-lg);
-  flex-wrap: wrap;
+  justify-content: center;  /* Center buttons */
+  gap: var(--spacing-sm);   /* Space between buttons */
+  margin-bottom: var(--spacing-lg);  /* Space below filter buttons */
+  flex-wrap: wrap;          /* Wrap on small screens */
 }
 
+/* ============================================================================
+   FILTER BUTTON STYLING
+   ============================================================================
+   
+   Individual filter button. Styled similarly to navigation tabs for consistency.
+*/
+
 .filter-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.5rem;  /* Comfortable clickable area */
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
+  
   color: var(--platinum);
   font-family: var(--font-modern);
   font-size: 0.9rem;
@@ -253,21 +534,198 @@ body {
   letter-spacing: 0.3px;
 }
 
+/* ============================================================================
+   FILTER BUTTON HOVER STATE
+   ============================================================================
+*/
+
 .filter-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ============================================================================
+   FILTER BUTTON ACTIVE STATE
+   ============================================================================
+   
+   The currently selected filter button gets highlighted styling.
+*/
+
 .filter-btn.active {
+  /* Gradient background for active state */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
   border-color: rgba(255, 255, 255, 0.4);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* ============================================================================
+   HABITS HEADER
+   ============================================================================
+   
+   Header section for the Habits page with title and create button.
+   Similar to Goals page header for consistency.
+*/
+
+.habits-header {
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.habits-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.habits-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--platinum);
+}
+
+/* ============================================================================
+   CREATE HABIT BUTTON - HEADER VERSION
+   ============================================================================
+   
+   Prominent button in the header for creating new habits.
+   Matches the style of Goals page create button for consistency.
+*/
+
+.create-habit-btn-header {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.create-habit-btn-header:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   CREATE HABIT BUTTON - FILTER BAR VERSION
+   ============================================================================
+   
+   Button for creating a new habit in the filter bar.
+   Styled to stand out from filter buttons but remain consistent with the design system.
+*/
+
+.filter-btn.create-habit-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+.filter-btn.create-habit-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.create-habit-btn-large {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: var(--platinum);
+  font-family: var(--font-modern);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+  margin-top: 1rem;
+}
+
+.create-habit-btn-large:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   FLOATING ACTION BUTTON - CREATE HABIT
+   ============================================================================
+   
+   Floating action button (FAB) for quick habit creation.
+   Always visible at bottom-right corner for easy access.
+   Provides a quick way to create habits without scrolling to the header.
+*/
+
+.floating-create-habit-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 2rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.floating-create-habit-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.25) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.floating-create-habit-btn:active {
+  transform: scale(0.95);
+}
+
+/* Hide floating button on mobile for better UX */
+@media (max-width: 768px) {
+  .floating-create-habit-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================================================
+   NO HABITS MESSAGE
+   ============================================================================
+   
+   Displayed when no habits match the current filter. Provides helpful
+   feedback to the user.
+*/
+
 .no-habits-message {
   text-align: center;
   padding: var(--spacing-xl);
+  
+  /* Light background for contrast on dark theme */
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   color: var(--elegant-gray);
@@ -276,11 +734,22 @@ body {
   box-shadow: var(--shadow-elegant);
 }
 
+/* ============================================================================
+   PAGE VIEW TABS
+   ============================================================================
+   
+   Tabs for switching between Daily/Weekly/Monthly views on the Habits page.
+   Styled consistently with main navigation tabs.
+*/
+
 .tab {
   padding: 0.875rem 2rem;
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 14px;
+  
   color: var(--platinum);
   font-family: var(--font-modern);
   font-size: 0.95rem;
@@ -291,39 +760,91 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* ============================================================================
+   PAGE VIEW TAB HOVER STATE
+   ============================================================================
+*/
+
 .tab:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ============================================================================
+   PAGE VIEW TAB ACTIVE STATE
+   ============================================================================
+*/
+
 .tab.active {
+  /* Gradient background for active state */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
   border-color: rgba(255, 255, 255, 0.4);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* ============================================================================
+   PROGRESS CONTAINER
+   ============================================================================
+   
+   Container for the daily habit completion progress bar shown on Habits page.
+*/
+
 .progress-container {
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-lg);  /* Space above progress bar */
 }
+
+/* ============================================================================
+   PROGRESS BAR TRACK
+   ============================================================================
+   
+   The background track of the progress bar. Shows the full width available
+   for progress visualization.
+*/
 
 .progress-bar {
   width: 100%;
-  height: 8px;
+  height: 8px;  /* Thin, elegant progress bar */
+  
+  /* Dark background track */
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
+  border-radius: 20px;  /* Fully rounded ends */
+  overflow: hidden;     /* Clip progress fill to rounded corners */
   margin-bottom: var(--spacing-sm);
+  
+  /* Inset shadow for depth */
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* ============================================================================
+   PROGRESS BAR FILL
+   ============================================================================
+   
+   The animated fill that shows completion percentage. Grows from 0% to
+   current completion percentage with smooth animation.
+*/
+
 .progress-fill {
   height: 100%;
+  
+  /* Black gradient for elegant appearance */
   background: linear-gradient(90deg, #2A2A2A 0%, #404040 50%, #1A1A1A 100%);
-  border-radius: 20px;
+  border-radius: 20px;  /* Match parent rounded corners */
+  
+  /* Smooth width transition when progress updates */
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Glowing shadow effect */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
+
+/* ============================================================================
+   PROGRESS TEXT
+   ============================================================================
+   
+   Text showing completion statistics (e.g., "8 / 12 completed (67%)").
+   Displayed below the progress bar.
+*/
 
 .progress-text {
   font-family: var(--font-modern);
@@ -334,43 +855,96 @@ body {
   letter-spacing: 0.3px;
 }
 
+/* ============================================================================
+   HABITS CONTAINER (SINGLE COLUMN LAYOUT)
+   ============================================================================
+   
+   The main container for habit items. Uses flexbox to create a single-column
+   layout where categories are stacked vertically, and each habit takes a full row.
+   
+   Categories are displayed one after another, with each category containing
+   its habits in a vertical list.
+*/
+
 .habits-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;      /* Stack categories vertically */
+  gap: var(--spacing-lg);      /* Space between category sections */
   margin-bottom: var(--spacing-xl);
-  align-items: start;
+  max-width: 100%;             /* Full width of container */
 }
 
-/* Category Column Styling */
+/* ============================================================================
+   HABIT CATEGORY SECTION
+   ============================================================================
+   
+   Each category section represents one habit category (Health, Fitness,
+   Nutrition, Mental, Lifestyle, Avoidance). Categories are stacked vertically
+   in a single column, with each category containing its habits in full-width rows.
+   
+   This creates a vertical list organization where users can scroll through
+   categories and see all habits in each category as full-width rows.
+*/
+
 .habit-category-column {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  /* Stack header and habits vertically */
+  width: 100%;             /* Full width of container */
+  
+  /* Glassmorphism styling */
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-radius: 24px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: var(--shadow-elegant);
   overflow: hidden;
+  
   transition: var(--transition-smooth);
-  min-height: 200px;
 }
+
+/* ============================================================================
+   CATEGORY COLUMN HOVER EFFECT
+   ============================================================================
+   
+   When hovering over a category column, it lifts slightly and gets a
+   stronger shadow for depth.
+*/
 
 .habit-category-column:hover {
   box-shadow: var(--shadow-premium);
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* Lift up on hover */
 }
+
+/* ============================================================================
+   CATEGORY HEADER
+   ============================================================================
+   
+   The header section of each category column. Shows:
+   - Category name (Health, Fitness, etc.)
+   - Completion count (e.g., "3 / 5")
+   
+   Uses category-specific colors for visual distinction.
+*/
 
 .category-header {
   padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 2px solid;
+  border-bottom: 2px solid;  /* Border color set dynamically by category */
+  
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* Category name on left, count on right */
   align-items: center;
+  
   font-family: var(--font-modern);
   position: relative;
   overflow: hidden;
 }
+
+/* ============================================================================
+   CATEGORY HEADER BACKGROUND GRADIENT
+   ============================================================================
+   
+   Adds a subtle gradient overlay to the category header for depth.
+*/
 
 .category-header::before {
   content: '';
@@ -380,116 +954,188 @@ body {
   right: 0;
   bottom: 0;
   opacity: 0.1;
+  
+  /* Subtle gradient overlay */
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, transparent 100%);
 }
+
+/* ============================================================================
+   CATEGORY HEADER TITLE
+   ============================================================================
+   
+   The category name displayed in the header (e.g., "Health", "Fitness").
+*/
 
 .category-header h3 {
   font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  text-transform: uppercase;  /* ALL CAPS for emphasis */
   margin: 0;
   position: relative;
-  z-index: 1;
+  z-index: 1;  /* Above gradient overlay */
 }
+
+/* ============================================================================
+   CATEGORY COMPLETION COUNT
+   ============================================================================
+   
+   Shows how many habits in this category are completed (e.g., "3 / 5").
+   Displayed as a badge in the header.
+*/
 
 .category-count {
   font-size: 0.875rem;
   font-weight: 500;
   opacity: 0.9;
   position: relative;
-  z-index: 1;
+  z-index: 1;  /* Above gradient overlay */
+  
+  /* Badge styling */
   padding: 0.25rem 0.75rem;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   backdrop-filter: blur(10px);
 }
 
+/* ============================================================================
+   CATEGORY HABITS LIST
+   ============================================================================
+   
+   Container for the list of habit items within a category section.
+   Uses flexbox to stack habits vertically, with each habit taking full width.
+*/
+
 .category-habits {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  flex-direction: column;  /* Stack habits vertically */
+  gap: var(--spacing-md);  /* Space between habit items */
   padding: var(--spacing-lg);
-  flex: 1;
+  flex: 1;                 /* Take remaining space in section */
+  width: 100%;             /* Full width */
 }
 
-/* Responsive adjustments for grid */
-@media (max-width: 1200px) {
-  .habits-container {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-md);
-  }
-}
+/* ============================================================================
+   RESPONSIVE DESIGN - MOBILE & SMALL TABLETS
+   ============================================================================
+   
+   For screens smaller than 768px (phones and small tablets):
+   - Reduced padding
+   - Smaller font sizes
+   - Tighter spacing
+*/
 
 @media (max-width: 768px) {
+  /* Tighter spacing on mobile */
   .habits-container {
-    grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
   
+  /* Reduce max width for better mobile appearance */
   .app-main .habits-container {
-    max-width: 100%;
+    max-width: 100%;  /* Full width on mobile */
   }
-}
-
-.app-footer {
-  text-align: center;
-  color: var(--platinum);
-  opacity: 0.7;
-  font-family: var(--font-elegant);
-  font-size: 1rem;
-  margin-top: var(--spacing-xl);
-  padding: var(--spacing-md);
-  letter-spacing: 1px;
-}
-
-@media (max-width: 768px) {
+  
+  /* Smaller app title on mobile */
   .app-header h1 {
-    font-size: 2.5rem;
+    font-size: 2.5rem;  /* Reduced from 3.5rem */
   }
   
+  /* Reduced padding on mobile */
   .app {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md);  /* Less padding on small screens */
   }
   
+  /* Smaller navigation tabs on mobile */
   .main-tab {
-    padding: 0.875rem 1.5rem;
+    padding: 0.875rem 1.5rem;  /* Smaller tabs */
     font-size: 0.9rem;
   }
 }
 
+/* ============================================================================
+   RESPONSIVE DESIGN - SMALL MOBILE
+   ============================================================================
+   
+   Additional adjustments for very small screens (< 480px):
+   - Even smaller title
+   - Smaller greeting elements
+*/
+
 @media (max-width: 480px) {
+  /* Smaller title on very small screens */
   .app-header h1 {
     font-size: 2rem;
   }
   
+  /* Smaller greeting emoji */
   .greeting-emoji {
     font-size: 2.5rem;
   }
   
+  /* Smaller greeting message */
   .greeting-message {
     font-size: 1.25rem;
   }
 }
 
-/* Loading state for lazy-loaded components */
+/* ============================================================================
+   APP FOOTER
+   ============================================================================
+   
+   The footer displayed at the bottom of the Habits page.
+   Contains motivational message ("Keep up the great work! 💪").
+*/
+
+.app-footer {
+  text-align: center;
+  color: var(--platinum);
+  opacity: 0.7;  /* Slightly transparent for subtlety */
+  font-family: var(--font-elegant);  /* Match header styling */
+  font-size: 1rem;
+  margin-top: var(--spacing-xl);  /* Space above footer */
+  padding: var(--spacing-md);
+  letter-spacing: 1px;
+}
+
+/* ============================================================================
+   LOADING STATE
+   ============================================================================
+   
+   Displayed while lazy-loaded page components are being loaded.
+   Shows a pulsing "Loading..." message to give user feedback.
+   
+   Used by React Suspense for code-split components.
+*/
+
 .loading-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 400px;  /* Minimum height to prevent layout shift */
+  
   font-family: var(--font-modern);
   color: var(--platinum);
   font-size: 1.1rem;
   opacity: 0.8;
-  animation: pulse 2s ease-in-out infinite;
+  
+  /* Pulsing animation to indicate loading */
+  animation: pulse 3s ease-in-out infinite;
 }
+
+/* ============================================================================
+   PULSE ANIMATION
+   ============================================================================
+   
+   Keyframe animation for the loading state. Creates a pulsing effect
+   by animating opacity between 0.6 and 1.0.
+*/
 
 @keyframes pulse {
   0%, 100% {
-    opacity: 0.6;
+    opacity: 0.6;  /* Fade out */
   }
   50% {
-    opacity: 1;
+    opacity: 1;    /* Fade in */
   }
 }

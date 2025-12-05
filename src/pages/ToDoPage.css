@@ -1,7 +1,7 @@
 .todos-header {
   text-align: center;
   margin-bottom: 2rem;
-  color: white;
+  color: rgb(155, 164, 225);
 }
 
 .todos-header-content {
@@ -112,6 +112,39 @@
 
 .todos-list {
   margin-bottom: 2rem;
+}
+
+/* Priority Sections */
+.priority-section {
+  margin-bottom: 2rem;
+}
+
+.priority-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.priority-now {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border-left: 4px solid #ef4444;
+}
+
+.priority-next {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border-left: 4px solid #f59e0b;
+}
+
+.priority-later {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+  border-left: 4px solid #3b82f6;
 }
 
 .empty-todos {

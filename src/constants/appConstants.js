@@ -128,29 +128,17 @@ export const TIME_PERIODS = {
 }
 
 /**
- * Habit difficulty levels.
+ * Todo priority levels.
  * 
- * Numeric scale from 1 (easiest) to 5 (hardest).
- * 
- * @constant {Object}
- */
-export const DIFFICULTY_LEVELS = {
-  VERY_EASY: 1,
-  EASY: 2,
-  MODERATE: 3,
-  HARD: 4,
-  VERY_HARD: 5
-}
-
-/**
- * Todo urgency levels.
+ * Used to organize todos by urgency. "Now" todos appear first,
+ * followed by "Next", then "Later".
  * 
  * @constant {Object}
  */
-export const URGENCY_LEVELS = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high'
+export const TODO_PRIORITY_LEVELS = {
+  NOW: 'now',     // Do this now - highest priority
+  NEXT: 'next',   // Do this next - medium priority
+  LATER: 'later'  // Do this later - lowest priority
 }
 
 /**

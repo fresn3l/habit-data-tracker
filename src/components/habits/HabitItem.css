@@ -1,20 +1,63 @@
-/* Premium Habit Item Design */
+/**
+ * Habit Item Component Styles
+ * 
+ * This file contains all styles for individual habit items displayed in
+ * the habits list. Each habit item is a card that shows:
+ * - Habit name and emoji
+ * - Checkbox for completion
+ * - Category badge
+ * - Time of day badge (morning/night)
+ * - Reminder badge (if enabled)
+ * - Streak badge
+ * - Settings button
+ * 
+ * The styling creates elegant, interactive cards with smooth animations,
+ * hover effects, and completion states.
+ * 
+ * @fileoverview Habit item component styles
+ * @module components/habits/HabitItem.css
+ * @requires App.css (for CSS variables)
+ */
+
+/* ============================================================================
+   HABIT ITEM CARD
+   ============================================================================
+   
+   The main container for each habit. This is the card that displays
+   a single habit in the habits list. It's interactive and responds to
+   hover and click events.
+*/
 
 .habit-item {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  padding: 1.75rem 2rem;
+  background: rgba(255, 255, 255, 0.95);  /* Nearly white background */
+  border-radius: 20px;                    /* Rounded corners */
+  padding: 1.75rem 2rem;                  /* Comfortable padding */
+  
+  /* Flexbox layout: checkbox, content, and actions in a row */
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  cursor: pointer;
-  transition: var(--transition-elegant);
-  box-shadow: var(--shadow-elegant);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  align-items: center;  /* Vertically center all items */
+  gap: 1.5rem;          /* Space between checkbox, content, and buttons */
+  
+  cursor: pointer;      /* Indicate item is clickable */
+  transition: var(--transition-elegant);  /* Smooth transitions */
+  box-shadow: var(--shadow-elegant);      /* Elegant shadow for depth */
+  border: 1px solid rgba(0, 0, 0, 0.1);   /* Subtle border */
   position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  overflow: hidden;     /* Hide left border accent overflow */
+  backdrop-filter: blur(10px);  /* Glassmorphism effect */
 }
+
+/* ============================================================================
+   LEFT BORDER ACCENT
+   ============================================================================
+   
+   A vertical accent line on the left side of each habit item. Initially
+   hidden (scaleY(0)) and expands when:
+   - User hovers over the item
+   - Habit is completed
+   
+   This creates a visual indicator and adds elegance to the design.
+*/
 
 .habit-item::before {
   content: '';
@@ -22,69 +65,143 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 5px;
+  width: 5px;  /* Thin accent line */
+  
+  /* Black gradient for the accent */
   background: linear-gradient(180deg, #1A1A1A 0%, #2A2A2A 100%);
-  transform: scaleY(0);
+  
+  transform: scaleY(0);  /* Start collapsed (hidden) */
   transition: var(--transition-elegant);
+  
+  /* Glowing shadow on the accent line */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+/* ============================================================================
+   HABIT ITEM HOVER STATE
+   ============================================================================
+   
+   When user hovers over a habit item, it:
+   - Lifts up slightly (translateY)
+   - Gets stronger shadow
+   - Darker border
+   - Fully opaque background
+   - Left accent line expands
+*/
+
 .habit-item:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-premium);
-  border-color: rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 1);
+  transform: translateY(-4px);  /* Lift up 4px */
+  box-shadow: var(--shadow-premium);  /* Stronger shadow */
+  border-color: rgba(0, 0, 0, 0.3);   /* Darker border */
+  background: rgba(255, 255, 255, 1); /* Fully opaque */
 }
 
+/* Expand left accent line on hover */
 .habit-item:hover::before {
-  transform: scaleY(1);
+  transform: scaleY(1);  /* Expand to full height */
 }
+
+/* ============================================================================
+   COMPLETED HABIT STATE
+   ============================================================================
+   
+   When a habit is completed, it gets special styling:
+   - Gradient background (ivory/cream tones)
+   - Darker, thicker border
+   - Glowing shadow
+   - Left accent line is always visible
+   - Name gets strikethrough
+   - Emoji scales up and rotates
+   - Checkmark transforms
+*/
 
 .habit-item.completed {
+  /* Elegant gradient background for completed state */
   background: linear-gradient(135deg, rgba(248, 246, 240, 0.98) 0%, rgba(255, 254, 247, 0.98) 100%);
-  border: 2px solid #1A1A1A;
-  box-shadow: var(--shadow-glow);
+  border: 2px solid #1A1A1A;  /* Thicker, darker border */
+  box-shadow: var(--shadow-glow);  /* Glowing shadow */
 }
 
+/* Left accent line always visible when completed */
 .habit-item.completed::before {
   background: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
-  transform: scaleY(1);
+  transform: scaleY(1);  /* Always expanded */
   width: 5px;
 }
+
+/* ============================================================================
+   COMPLETION ANIMATION
+   ============================================================================
+   
+   When a habit is toggled to completed, this animation plays briefly.
+   Creates a subtle pulse effect to provide visual feedback.
+*/
 
 .habit-item.animating {
   animation: elegantPulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ============================================================================
+   ELEGANT PULSE ANIMATION
+   ============================================================================
+   
+   Keyframe animation that slightly scales the item and intensifies the
+   shadow when a habit is completed. Creates a satisfying "pop" effect.
+*/
+
 @keyframes elegantPulse {
   0%, 100% {
-    transform: scale(1);
-    box-shadow: var(--shadow-elegant);
+    transform: scale(1);              /* Normal size */
+    box-shadow: var(--shadow-elegant); /* Normal shadow */
   }
   50% {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-glow);
+    transform: scale(1.02);           /* Slightly larger */
+    box-shadow: var(--shadow-glow);   /* Glowing shadow */
   }
 }
+
+/* ============================================================================
+   HABIT CHECKBOX
+   ============================================================================
+   
+   Custom-styled checkbox for habit completion. The actual HTML checkbox
+   is hidden, and we use a custom checkmark element for visual styling.
+*/
 
 .habit-checkbox {
   position: relative;
   width: 32px;
   height: 32px;
-  flex-shrink: 0;
+  flex-shrink: 0;  /* Don't shrink in flex layout */
   cursor: pointer;
-  z-index: 2;
+  z-index: 2;      /* Above other elements */
 }
+
+/* ============================================================================
+   HIDDEN CHECKBOX INPUT
+   ============================================================================
+   
+   The actual HTML checkbox input. Hidden visually but still functional
+   for accessibility and form handling.
+*/
 
 .habit-checkbox input {
   position: absolute;
-  opacity: 0;
+  opacity: 0;      /* Visually hidden */
   width: 100%;
   height: 100%;
   cursor: pointer;
-  z-index: 3;
-  pointer-events: all;
+  z-index: 3;      /* Above checkmark for click handling */
+  pointer-events: all;  /* Capture clicks */
 }
+
+/* ============================================================================
+   CUSTOM CHECKMARK
+   ============================================================================
+   
+   The visual checkbox element. Shows a styled square that transforms
+   when the habit is completed.
+*/
 
 .habit-checkbox .checkmark {
   position: absolute;
@@ -92,12 +209,15 @@
   left: 0;
   width: 32px;
   height: 32px;
+  
   border: 2px solid #1A1A1A;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(125, 165, 215, 0.9);  /* Light blue for unchecked state */
+  
   display: flex;
   align-items: center;
   justify-content: center;
+  
   transition: var(--transition-elegant);
   font-size: 18px;
   color: white;
@@ -105,107 +225,179 @@
   box-shadow: var(--shadow-subtle);
 }
 
+/* ============================================================================
+   COMPLETED CHECKMARK STATE
+   ============================================================================
+   
+   When habit is completed, the checkmark:
+   - Gets dark gradient background
+   - Rotates 360 degrees and scales up
+   - Shows stronger shadow
+   - Displays checkmark (✓) character
+*/
+
 .habit-item.completed .checkmark {
   background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
   border-color: #0A0A0A;
+  
+  /* Rotate and scale animation */
   transform: rotate(360deg) scale(1.1);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-.habit-item:not(.completed) .checkmark::after {
-  content: '';
-}
+/* ============================================================================
+   HABIT CONTENT AREA
+   ============================================================================
+   
+   The middle section of the habit item containing:
+   - Habit emoji
+   - Habit name
+   - Badges (time, category, reminder)
+   
+   Uses flexbox for horizontal layout with wrapping on small screens.
+*/
 
 .habit-content {
-  flex: 1;
+  flex: 1;  /* Take remaining space */
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-  min-width: 0;
+  gap: 1.25rem;  /* Space between emoji, name, and badges */
+  flex-wrap: wrap;  /* Wrap on small screens */
+  min-width: 0;  /* Allow text truncation */
 }
+
+/* ============================================================================
+   HABIT BADGES CONTAINER
+   ============================================================================
+   
+   Container for all badges displayed on a habit (time badge, category badge,
+   reminder badge). Positioned on the right side of the habit item.
+*/
 
 .habit-badges {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.75rem;  /* Space between badges */
   align-items: center;
-  flex-wrap: wrap;
-  margin-left: auto;
+  flex-wrap: wrap;  /* Wrap badges on small screens */
+  margin-left: auto;  /* Push to right side */
 }
 
-@media (max-width: 480px) {
-  .habit-badges {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 0.75rem;
-  }
-}
+/* ============================================================================
+   TIME BADGE
+   ============================================================================
+   
+   Badge showing when the habit should be done (morning 🌅 or night 🌙).
+   Uses different colors for morning vs. night habits.
+*/
 
 .habit-time-badge {
   padding: 0.4rem 1rem;
   border-radius: 14px;
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: capitalize;  /* "Morning" not "morning" */
   letter-spacing: 0.8px;
   font-family: var(--font-modern);
   backdrop-filter: blur(10px);
 }
 
+/* Morning badge - warm amber tones */
 .habit-time-badge[data-time="morning"] {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.25) 100%);
   color: #92400e;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
+/* Night badge - cool purple tones */
 .habit-time-badge[data-time="night"] {
   background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(79, 70, 229, 0.3) 100%);
   color: #4c1d95;
   border: 1px solid rgba(79, 70, 229, 0.3);
 }
 
+/* ============================================================================
+   REMINDER BADGE
+   ============================================================================
+   
+   Badge (🔔) shown when reminders are enabled for the habit.
+   Uses blue tones to indicate notification/alert functionality.
+*/
+
 .habit-reminder-badge {
   padding: 0.4rem 0.8rem;
   border-radius: 14px;
   font-size: 0.85rem;
+  
+  /* Blue gradient for reminder indication */
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.25) 100%);
   color: #1e40af;
   border: 1px solid rgba(59, 130, 246, 0.3);
   font-weight: 600;
 }
 
-.habit-difficulty-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 14px;
-  font-size: 0.75rem;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.25) 100%);
-  color: #92400e;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  font-weight: 600;
-}
+/* ============================================================================
+   CATEGORY BADGE
+   ============================================================================
+   
+   Badge showing the habit's category (Health, Fitness, Nutrition, etc.).
+   Background and text colors are set dynamically via inline styles based
+   on the category's color scheme.
+*/
 
 .habit-category-badge {
   padding: 0.4rem 1rem;
   border-radius: 14px;
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: uppercase;  /* "HEALTH" not "Health" */
   letter-spacing: 1px;
   font-family: var(--font-modern);
   backdrop-filter: blur(10px);
+  
+  /* Colors set via inline style from category definition */
 }
 
+/* ============================================================================
+   HABIT EMOJI
+   ============================================================================
+   
+   The emoji displayed for each habit (🦷, 🧘, 💪, etc.).
+   Large and prominent to provide quick visual identification.
+*/
+
 .habit-emoji {
-  font-size: 2.25rem;
+  font-size: 2.25rem;  /* Large, eye-catching size */
   line-height: 1;
   transition: var(--transition-elegant);
+  
+  /* Drop shadow for depth and separation from background */
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+/* ============================================================================
+   COMPLETED HABIT EMOJI
+   ============================================================================
+   
+   When habit is completed, the emoji:
+   - Scales up 15%
+   - Rotates slightly (5 degrees)
+   - Gets stronger shadow
+   
+   Creates a celebratory effect.
+*/
+
 .habit-item.completed .habit-emoji {
-  transform: scale(1.15) rotate(5deg);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transform: scale(1.15) rotate(5deg);  /* Larger and rotated */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));  /* Stronger shadow */
 }
+
+/* ============================================================================
+   HABIT NAME
+   ============================================================================
+   
+   The text name of the habit (e.g., "Brush Teeth (AM)", "Meditate").
+   Uses modern sans-serif font for readability.
+*/
 
 .habit-name {
   font-family: var(--font-modern);
@@ -216,78 +408,145 @@
   letter-spacing: 0.3px;
 }
 
+/* ============================================================================
+   COMPLETED HABIT NAME
+   ============================================================================
+   
+   When completed, the habit name:
+   - Gets strikethrough decoration
+   - Darker color
+   - Reduced opacity
+   
+   Visually indicates completion while keeping text readable.
+*/
+
 .habit-item.completed .habit-name {
   color: #0A0A0A;
-  text-decoration: line-through;
-  opacity: 0.8;
+  text-decoration: line-through;  /* Strikethrough */
+  opacity: 0.8;  /* Slightly faded */
 }
+
+/* ============================================================================
+   HABIT RIGHT SECTION
+   ============================================================================
+   
+   Container for elements on the right side of the habit item:
+   - Celebration emoji (🎉) when just completed
+   - Streak badge
+   - Settings button
+   
+   Uses flexbox for horizontal layout.
+*/
 
 .habit-right {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-left: auto;
+  gap: 0.75rem;  /* Space between elements */
+  margin-left: auto;  /* Push to right side */
 }
+
+/* ============================================================================
+   SETTINGS BUTTON
+   ============================================================================
+   
+   The gear icon (⚙️) button to open habit detail modal. Initially
+   semi-transparent and becomes fully visible on hover.
+*/
 
 .habit-detail-btn {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 1.1rem;
+  font-size: 1.1rem;  /* Gear icon size */
   cursor: pointer;
   padding: 0.625rem;
   border-radius: 10px;
   transition: var(--transition-smooth);
-  opacity: 0.7;
+  opacity: 0.7;  /* Semi-transparent by default */
   color: #1A1A1A;
 }
 
+/* More visible when hovering over habit item */
 .habit-item:hover .habit-detail-btn {
   opacity: 1;
   background: rgba(0, 0, 0, 0.2);
 }
 
+/* Button-specific hover effect */
 .habit-detail-btn:hover {
   background: rgba(0, 0, 0, 0.3);
   border-color: rgba(0, 0, 0, 0.3);
-  transform: scale(1.1) rotate(90deg);
+  transform: scale(1.1) rotate(90deg);  /* Scale and rotate on hover */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* ============================================================================
+   CELEBRATION EMOJI
+   ============================================================================
+   
+   The 🎉 emoji that appears briefly when a habit is completed.
+   Uses a bounce animation for celebratory effect.
+*/
+
 .habit-celebration {
-  font-size: 1.75rem;
+  font-size: 1.75rem;  /* Large celebration emoji */
+  
+  /* Bounce animation for celebratory effect */
   animation: elegantBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
+/* ============================================================================
+   BOUNCE ANIMATION
+   ============================================================================
+   
+   Keyframe animation that makes the celebration emoji bounce up and down.
+   Uses elastic easing for a playful, bouncy effect.
+*/
+
 @keyframes elegantBounce {
   0%, 100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);  /* Normal position */
   }
   25% {
-    transform: translateY(-15px) scale(1.1);
+    transform: translateY(-15px) scale(1.1);  /* Bounce up */
   }
   50% {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-8px) scale(1.05);  /* Mid-bounce */
   }
   75% {
-    transform: translateY(-12px) scale(1.08);
+    transform: translateY(-12px) scale(1.08);  /* Small bounce */
   }
 }
 
+/* ============================================================================
+   RESPONSIVE DESIGN - MOBILE
+   ============================================================================
+   
+   Adjustments for small screens (< 480px):
+   - Reduced padding
+   - Smaller fonts
+   - Badges wrap to new line
+   - Single column layout
+*/
+
 @media (max-width: 480px) {
+  /* Smaller padding on mobile */
   .habit-item {
     padding: 1.5rem 1.5rem;
     border-radius: 16px;
   }
   
+  /* Smaller habit name */
   .habit-name {
     font-size: 1.05rem;
   }
   
+  /* Smaller emoji */
   .habit-emoji {
     font-size: 1.75rem;
   }
   
+  /* Category badge wraps to full width */
   .habit-category-badge {
     font-size: 0.7rem;
     padding: 0.35rem 0.85rem;
@@ -297,8 +556,16 @@
     margin-top: 0.75rem;
   }
   
+  /* Stack content vertically on mobile */
   .habit-content {
     flex-direction: column;
     align-items: flex-start;
+  }
+  
+  /* Badges wrap below content */
+  .habit-badges {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 0.75rem;
   }
 }

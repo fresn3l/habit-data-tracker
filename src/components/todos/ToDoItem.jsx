@@ -1,5 +1,21 @@
+/**
+ * To Do Item Component
+ * 
+ * Displays a single todo item with:
+ * - Priority badge (Now, Next, Later)
+ * - Linked goal indicator (if linked)
+ * - Completion checkbox
+ * - Time commitment
+ * - Due date
+ * - Recurrence indicator
+ * 
+ * @module components/todos/ToDoItem
+ * @component
+ */
+
 import { useState } from 'react'
 import { getRecurrenceLabel, calculateNextOccurrence } from '../../utils/recurrenceUtils'
+import { getAllGoals } from '../../utils/goalStorage'
 import './ToDoItem.css'
 
 function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
@@ -31,14 +47,39 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
     return diffDays
   }
 
-  const getUrgencyColor = () => {
+  /**
+   * Get priority badge color based on priority level.
+   * Now = red, Next = orange, Later = blue
+   */
+  const getPriorityColor = () => {
     if (isOverdue()) return '#dc2626'
-    switch (todo.urgency) {
-      case 'high': return '#ef4444'
-      case 'medium': return '#f59e0b'
-      case 'low': return '#10b981'
+    switch (todo.priority) {
+      case 'now': return '#ef4444'      // Red for "Now"
+      case 'next': return '#f59e0b'     // Orange for "Next"
+      case 'later': return '#3b82f6'    // Blue for "Later"
       default: return '#6b7280'
     }
+  }
+
+  /**
+   * Get priority label for display.
+   */
+  const getPriorityLabel = () => {
+    switch (todo.priority) {
+      case 'now': return 'Now'
+      case 'next': return 'Next'
+      case 'later': return 'Later'
+      default: return todo.priority || 'Next'
+    }
+  }
+
+  /**
+   * Get linked goal if todo is linked to a goal.
+   */
+  const getLinkedGoal = () => {
+    if (!todo.linkedGoalId) return null
+    const goals = getAllGoals()
+    return goals.find(g => g.id === todo.linkedGoalId)
   }
 
   const getTimeCommitmentIcon = () => {
@@ -59,6 +100,8 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
     return `Due in ${days} days`
   }
 
+  const linkedGoal = getLinkedGoal()
+
   return (
     <div 
       className={`todo-item ${todo.completed ? 'completed' : ''} ${isOverdue() ? 'overdue' : ''} ${isAnimating ? 'animating' : ''}`}
@@ -78,10 +121,10 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
           <div className="todo-title-row">
             <h3 className="todo-title">{todo.title}</h3>
             <span 
-              className="urgency-badge"
-              style={{ backgroundColor: getUrgencyColor() }}
+              className="priority-badge"
+              style={{ backgroundColor: getPriorityColor() }}
             >
-              {todo.urgency}
+              {getPriorityLabel()}
             </span>
           </div>
           
@@ -90,6 +133,11 @@ function ToDoItem({ todo, onToggle, onEdit, onDelete }) {
           )}
 
           <div className="todo-meta">
+            {linkedGoal && (
+              <span className="linked-goal-badge" title={`Linked to goal: ${linkedGoal.title}`}>
+                🎯 {linkedGoal.emoji || ''} {linkedGoal.title}
+              </span>
+            )}
             <span className="time-commitment">
               {getTimeCommitmentIcon()} {todo.timeCommitment}
             </span>
