@@ -29,6 +29,14 @@ export const saveGoal = (goal) => {
   }
   
   localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(goals))
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
+  
   return goal
 }
 
@@ -67,6 +75,14 @@ export const saveGoalStep = (step) => {
   }
   
   localStorage.setItem(GOAL_STEPS_STORAGE_KEY, JSON.stringify(steps))
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
+  
   return step
 }
 

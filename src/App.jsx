@@ -47,6 +47,7 @@ const ToDoPage = lazy(() => import('./pages/ToDoPage'))
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
 const ReviewsPage = lazy(() => import('./pages/ReviewsPage'))
 const JournalPage = lazy(() => import('./pages/JournalPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 
 // ============================================================================
 // MAIN APP COMPONENT
@@ -229,6 +230,15 @@ function App() {
           >
             Journal
           </button>
+          
+          {/* Settings Tab */}
+          <button 
+            className={`main-tab ${currentPage === 'settings' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('settings')}
+            aria-label="Navigate to Settings page"
+          >
+            Settings
+          </button>
         </div>
       </header>
 
@@ -249,6 +259,7 @@ function App() {
           {currentPage === 'analytics' && <AnalyticsPage />}
           {currentPage === 'reviews' && <ReviewsPage />}
           {currentPage === 'journal' && <JournalPage />}
+          {currentPage === 'settings' && <SettingsPage />}
         </Suspense>
       </main>
 

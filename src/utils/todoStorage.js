@@ -60,6 +60,14 @@ export const saveTodo = (todo) => {
   }
   
   localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos))
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
+  
   return todo
 }
 
@@ -116,6 +124,14 @@ export const toggleTodoComplete = (todoId) => {
   }
   
   localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos))
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
+  
   return todo
 }
 

@@ -392,6 +392,180 @@ def show_notification(title, message):
     return {"success": True}
 
 # ============================================================================
+# DESKTOP FILE STORAGE FUNCTIONS
+# ============================================================================
+
+@eel.expose
+def get_desktop_path():
+    """
+    Returns the user's Desktop path.
+    
+    Returns:
+        dict: Result object with desktop path
+            - success (bool): True if successful
+            - path (str): Desktop path (if success)
+            - error (str): Error message (if failure)
+    
+    Example (JavaScript):
+        const result = await eel.get_desktop_path()()
+        if (result.success) {
+            console.log(result.path)  // "/Users/username/Desktop"
+        }
+    """
+    try:
+        desktop = Path.home() / 'Desktop'
+        return {
+            "success": True,
+            "path": str(desktop)
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@eel.expose
+def save_all_data_to_file(file_path, data_json):
+    """
+    Saves all app data to a JSON file.
+    
+    Args:
+        file_path (str): Full path to the data file
+        data_json (str): JSON string of all app data
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if save succeeded
+            - path (str): Full path to saved file (if success)
+            - error (str): Error message (if failure)
+    
+    Example (JavaScript):
+        const allData = { habits: {...}, todos: [...] }
+        const result = await eel.save_all_data_to_file('/path/to/data.json', JSON.stringify(allData))()
+    """
+    try:
+        # Ensure directory exists
+        directory = os.path.dirname(file_path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        
+        # Parse and pretty-print JSON
+        data = json.loads(data_json)
+        
+        # Write file with pretty formatting
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        return {
+            "success": True,
+            "path": file_path
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@eel.expose
+def load_all_data_from_file(file_path):
+    """
+    Loads all app data from a JSON file.
+    
+    Args:
+        file_path (str): Full path to the data file
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if load succeeded
+            - data (dict): Parsed JSON data (if success)
+            - error (str): Error message (if failure)
+    
+    Example (JavaScript):
+        const result = await eel.load_all_data_from_file('/path/to/data.json')()
+        if (result.success) {
+            const data = result.data
+        }
+    """
+    try:
+        if not os.path.exists(file_path):
+            return {
+                "success": False,
+                "error": "File not found"
+            }
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        return {
+            "success": True,
+            "data": data
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@eel.expose
+def set_data_file_path(file_path):
+    """
+    Saves the chosen data file path to a config file.
+    
+    Args:
+        file_path (str): Full path to the data file
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if saved successfully
+    
+    Example (JavaScript):
+        await eel.set_data_file_path('/Users/username/Desktop/data.json')()
+    """
+    try:
+        config_path = Path.home() / '.personal-tracker-config.json'
+        config = {
+            "dataFilePath": file_path
+        }
+        with open(config_path, 'w') as f:
+            json.dump(config, f, indent=2)
+        
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@eel.expose
+def get_data_file_path():
+    """
+    Gets the saved data file path from config.
+    
+    Returns:
+        dict: Result object
+            - success (bool): True if successful
+            - path (str): Saved file path (or None if not set)
+    
+    Example (JavaScript):
+        const result = await eel.get_data_file_path()()
+        if (result.success && result.path) {
+            console.log(result.path)
+        }
+    """
+    try:
+        config_path = Path.home() / '.personal-tracker-config.json'
+        if os.path.exists(config_path):
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+                return {
+                    "success": True,
+                    "path": config.get("dataFilePath")
+                }
+        return {
+            "success": True,
+            "path": None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+# ============================================================================
 # VALIDATION FUNCTIONS
 # ============================================================================
 

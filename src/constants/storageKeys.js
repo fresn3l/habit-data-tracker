@@ -95,3 +95,15 @@ export const STORAGE_KEY_STREAKS = 'habit-tracker-streaks'
  * @default 'habit-tracker-journals'
  */
 export const STORAGE_KEY_JOURNALS = 'habit-tracker-journals'
+
+/**
+ * Storage key for habit templates.
+ * Stores habit template definitions (structure, metadata) that are
+ * instantiated each day with completion status.
+ * 
+ * Structure: Array of habit template objects with id, name, emoji, category, timeOfDay, etc.
+ * 
+ * @constant {string}
+ * @default 'habit-tracker-templates'
+ */
+export const STORAGE_KEY_HABIT_TEMPLATES = 'habit-tracker-templates'

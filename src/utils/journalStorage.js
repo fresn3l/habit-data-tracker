@@ -117,6 +117,13 @@ export const saveJournal = (content, timerSeconds = 0, dateString = null) => {
       // Continue anyway - localStorage backup is sufficient
     })
     
+    // Auto-sync to desktop file if enabled (background, non-blocking)
+    if (typeof window !== 'undefined' && window.eel) {
+      import('./desktopStorage').then(module => {
+        module.autoSyncToDesktop().catch(() => {})
+      }).catch(() => {})
+    }
+    
     return journalEntry
   } catch (error) {
     console.error('Error saving journal to localStorage:', error)

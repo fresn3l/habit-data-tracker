@@ -187,6 +187,18 @@ export const saveDayData = (dateKey, habits, weight = null) => {
   
   // Clear cache so next read gets fresh data
   clearDataCache()
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    // Dynamic import to avoid circular dependencies
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {
+        // Silent fail - desktop sync is optional
+      })
+    }).catch(() => {
+      // Ignore if module not available
+    })
+  }
 }
 
 /**
@@ -224,6 +236,13 @@ export const saveWeight = (dateKey, weight) => {
   
   // Clear cache
   clearDataCache()
+  
+  // Auto-sync to desktop file if enabled (background, non-blocking)
+  if (typeof window !== 'undefined' && window.eel) {
+    import('./desktopStorage').then(module => {
+      module.autoSyncToDesktop().catch(() => {})
+    }).catch(() => {})
+  }
 }
 
 // ============================================================================

@@ -1,0 +1,25 @@
+# Commands to Build and Install App to Applications
+
+## Quick Way (Automated Script):
+
+./build_and_install.sh
+
+## Manual Way (Step by Step):
+
+# 1. Build React app
+npm run build
+
+# 2. Package as executable
+source venv/bin/activate
+python3 package.py
+
+# 3. Create macOS app bundle
+./create_app_bundle.sh
+
+# 4. Install to Applications
+cp -r dist/PersonalTracker.app /Applications/
+
+## One-Liner (All Steps):
+
+npm run build && source venv/bin/activate && python3 package.py && ./create_app_bundle.sh && cp -r dist/PersonalTracker.app /Applications/
+

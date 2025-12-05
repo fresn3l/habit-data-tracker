@@ -4,7 +4,7 @@ import { getDayData, getTodayKey } from '../../utils/dataStorage'
 import { isReminderEnabled } from '../../utils/reminderStorage'
 import './HabitDetailModal.css'
 
-function HabitDetailModal({ habit, onClose, onUpdate }) {
+function HabitDetailModal({ habit, onClose, onUpdate, onDelete }) {
   const [showReminderSettings, setShowReminderSettings] = useState(false)
   const [hasReminder, setHasReminder] = useState(false)
 
@@ -12,6 +12,15 @@ function HabitDetailModal({ habit, onClose, onUpdate }) {
     // Check if reminder is enabled
     setHasReminder(isReminderEnabled(habit.id))
   }, [habit])
+
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete "${habit.name}"? This will remove it from all days.`)) {
+      if (onDelete) {
+        onDelete(habit.id)
+      }
+      onClose()
+    }
+  }
 
   return (
     <div className="habit-detail-overlay" onClick={onClose}>
@@ -50,6 +59,21 @@ function HabitDetailModal({ habit, onClose, onUpdate }) {
               Get notified when it's time to complete this habit
             </p>
           </div>
+
+          {onDelete && (
+            <div className="detail-section">
+              <h3>Danger Zone</h3>
+              <button 
+                className="btn-delete-habit"
+                onClick={handleDelete}
+              >
+                Delete Habit
+              </button>
+              <p className="detail-help">
+                This will permanently delete this habit from all days
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

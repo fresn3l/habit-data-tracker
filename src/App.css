@@ -560,6 +560,160 @@ body {
 }
 
 /* ============================================================================
+   HABITS HEADER
+   ============================================================================
+   
+   Header section for the Habits page with title and create button.
+   Similar to Goals page header for consistency.
+*/
+
+.habits-header {
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.habits-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.habits-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--platinum);
+}
+
+/* ============================================================================
+   CREATE HABIT BUTTON - HEADER VERSION
+   ============================================================================
+   
+   Prominent button in the header for creating new habits.
+   Matches the style of Goals page create button for consistency.
+*/
+
+.create-habit-btn-header {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.create-habit-btn-header:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   CREATE HABIT BUTTON - FILTER BAR VERSION
+   ============================================================================
+   
+   Button for creating a new habit in the filter bar.
+   Styled to stand out from filter buttons but remain consistent with the design system.
+*/
+
+.filter-btn.create-habit-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+.filter-btn.create-habit-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.create-habit-btn-large {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: var(--platinum);
+  font-family: var(--font-modern);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+  margin-top: 1rem;
+}
+
+.create-habit-btn-large:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   FLOATING ACTION BUTTON - CREATE HABIT
+   ============================================================================
+   
+   Floating action button (FAB) for quick habit creation.
+   Always visible at bottom-right corner for easy access.
+   Provides a quick way to create habits without scrolling to the header.
+*/
+
+.floating-create-habit-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 2rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.floating-create-habit-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.25) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.floating-create-habit-btn:active {
+  transform: scale(0.95);
+}
+
+/* Hide floating button on mobile for better UX */
+@media (max-width: 768px) {
+  .floating-create-habit-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================================================
    NO HABITS MESSAGE
    ============================================================================
    

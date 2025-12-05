@@ -1,65 +1,113 @@
 import { useState, useEffect } from 'react'
 import HabitItem from '../components/habits/HabitItem'
+import HabitForm from '../components/habits/HabitForm'
 import WeightInput from '../components/habits/WeightInput'
 import MoodInput from '../components/analytics/MoodInput'
 import StatsView from '../components/analytics/StatsView'
 import { getCategoryForHabit, HABIT_CATEGORIES } from '../utils/habitCategories'
 import { saveDayData, getDayData, getTodayKey, saveWeight } from '../utils/dataStorage'
 import { getTimeBasedGreeting, getCurrentTimePeriod, shouldShowHabit } from '../utils/timeUtils'
+import { 
+  getAllHabitTemplates, 
+  saveHabitTemplate, 
+  deleteHabitTemplate, 
+  initializeDefaultHabits 
+} from '../utils/habitStorage'
 import '../App.css'
 
-const DEFAULT_HABITS = [
-  { id: 1, name: 'Brush Teeth (AM)', emoji: '🦷', completed: false, timeOfDay: 'morning' },
-  { id: 2, name: 'Meditate', emoji: '🧘', completed: false, timeOfDay: 'morning' },
-  { id: 3, name: 'Weightlifting', emoji: '💪', completed: false, timeOfDay: 'anytime' },
-  { id: 4, name: 'Met Water Intake', emoji: '💧', completed: false, timeOfDay: 'anytime' },
-  { id: 5, name: 'Read', emoji: '📚', completed: false, timeOfDay: 'anytime' },
-  { id: 6, name: 'Met Calories Intake', emoji: '🍔', completed: false, timeOfDay: 'anytime' },
-  { id: 7, name: 'Journaling', emoji: '✍️', completed: false, timeOfDay: 'night' },
-  { id: 8, name: 'No Phone 1hr Before Bed', emoji: '📵', completed: false, timeOfDay: 'night' },
-  { id: 9, name: 'No Alcohol Intake', emoji: '🍺', completed: false, timeOfDay: 'anytime' },
-  { id: 10, name: 'No Weed Intake', emoji: '🚬', completed: false, timeOfDay: 'anytime' },
-  { id: 11, name: 'Supplements On Time', emoji: '💊', completed: false, timeOfDay: 'morning' },
-  { id: 12, name: 'Wear Retainers', emoji: '😬', completed: false, timeOfDay: 'night' },
-].map(habit => ({
-  ...habit,
-  category: getCategoryForHabit(habit.name),
-  timeOfDay: habit.timeOfDay || 'anytime',
-}))
+/**
+ * Converts habit templates to daily habit instances with completion status.
+ * 
+ * @param {Array} templates - Array of habit template objects
+ * @returns {Array} Array of daily habit instances
+ */
+const convertTemplatesToDailyHabits = (templates) => {
+  return templates.map(template => ({
+    ...template,
+    completed: false, // Daily habits start as incomplete
+  }))
+}
+
+/**
+ * Merges existing daily habits with new templates, preserving completion status.
+ * 
+ * @param {Array} existingHabits - Current day's habits with completion status
+ * @param {Array} templates - Habit templates (definitions)
+ * @returns {Array} Merged habits array
+ */
+const mergeHabitsWithTemplates = (existingHabits, templates) => {
+  const habitMap = new Map()
+  
+  // First, add all existing habits (preserve completion status)
+  existingHabits.forEach(habit => {
+    habitMap.set(habit.id, habit)
+  })
+  
+  // Then, add/update from templates
+  templates.forEach(template => {
+    if (habitMap.has(template.id)) {
+      // Update existing habit with template data but keep completion
+      const existing = habitMap.get(template.id)
+      habitMap.set(template.id, {
+        ...template,
+        completed: existing.completed,
+      })
+    } else {
+      // Add new habit from template
+      habitMap.set(template.id, {
+        ...template,
+        completed: false,
+      })
+    }
+  })
+  
+  return Array.from(habitMap.values())
+}
 
 function HabitsPage() {
-  const [habits, setHabits] = useState(DEFAULT_HABITS)
+  const [habits, setHabits] = useState([])
   const [weight, setWeight] = useState(null)
   const [view, setView] = useState('daily') // 'daily', 'weekly', 'monthly'
   const [showFilter, setShowFilter] = useState('current') // 'current', 'all', 'morning', 'night'
+  const [showHabitForm, setShowHabitForm] = useState(false)
+  const [editingHabit, setEditingHabit] = useState(null)
   
   const greeting = getTimeBasedGreeting()
   const timePeriod = getCurrentTimePeriod()
 
-  // Load habits and weight from localStorage on mount
+  // Initialize habit templates and load daily habits
   useEffect(() => {
+    // Initialize default habits if none exist
+    initializeDefaultHabits()
+    
+    // Load habit templates
+    const templates = getAllHabitTemplates()
+    
+    // Load today's data
     const todayKey = getTodayKey()
     const savedData = getDayData(todayKey)
     
-    if (savedData) {
-      if (savedData.habits) {
-        // Restore saved habits with categories and timeOfDay
-        setHabits(savedData.habits.map(h => ({
-          ...h,
-          category: h.category || getCategoryForHabit(h.name),
-          timeOfDay: h.timeOfDay || 'anytime',
-        })))
-      } else {
-        setHabits(DEFAULT_HABITS)
-      }
-      
-      // Restore saved weight
-      if (savedData.weight !== undefined && savedData.weight !== null) {
-        setWeight(savedData.weight)
-      }
+    if (savedData && savedData.habits && savedData.habits.length > 0) {
+      // Merge existing habits with templates (preserve completion status)
+      const merged = mergeHabitsWithTemplates(savedData.habits, templates)
+      setHabits(merged.map(h => ({
+        ...h,
+        category: h.category || getCategoryForHabit(h.name),
+        timeOfDay: h.timeOfDay || 'anytime',
+      })))
     } else {
-      // Initialize with categories if not present
-      setHabits(DEFAULT_HABITS)
+      // No saved data for today - create from templates
+      const dailyHabits = convertTemplatesToDailyHabits(templates)
+      setHabits(dailyHabits.map(h => ({
+        ...h,
+        category: h.category || getCategoryForHabit(h.name),
+        timeOfDay: h.timeOfDay || 'anytime',
+      })))
+    }
+    
+    // Restore saved weight
+    if (savedData && savedData.weight !== undefined && savedData.weight !== null) {
+      setWeight(savedData.weight)
     }
   }, [])
 
@@ -68,6 +116,29 @@ function HabitsPage() {
     const todayKey = getTodayKey()
     saveDayData(todayKey, habits, weight)
   }, [habits, weight])
+
+  // Reload habits when templates change
+  const reloadHabits = () => {
+    const templates = getAllHabitTemplates()
+    const todayKey = getTodayKey()
+    const savedData = getDayData(todayKey)
+    
+    if (savedData && savedData.habits && savedData.habits.length > 0) {
+      const merged = mergeHabitsWithTemplates(savedData.habits, templates)
+      setHabits(merged.map(h => ({
+        ...h,
+        category: h.category || getCategoryForHabit(h.name),
+        timeOfDay: h.timeOfDay || 'anytime',
+      })))
+    } else {
+      const dailyHabits = convertTemplatesToDailyHabits(templates)
+      setHabits(dailyHabits.map(h => ({
+        ...h,
+        category: h.category || getCategoryForHabit(h.name),
+        timeOfDay: h.timeOfDay || 'anytime',
+      })))
+    }
+  }
 
   const handleWeightChange = (newWeight) => {
     setWeight(newWeight)
@@ -83,6 +154,36 @@ function HabitsPage() {
           : habit
       )
     )
+  }
+
+  const handleHabitSave = (habitData) => {
+    // Save the habit template
+    saveHabitTemplate(habitData)
+    
+    // Reload habits to include the new/updated habit
+    reloadHabits()
+    
+    // Close form
+    setShowHabitForm(false)
+    setEditingHabit(null)
+  }
+
+  const handleNewHabit = () => {
+    setEditingHabit(null)
+    setShowHabitForm(true)
+  }
+
+  const handleHabitDelete = (habitId) => {
+    if (window.confirm('Are you sure you want to delete this habit? This will remove it from all days.')) {
+      // Delete from templates
+      deleteHabitTemplate(habitId)
+      
+      // Remove from today's habits
+      setHabits(prevHabits => prevHabits.filter(h => h.id !== habitId.toString()))
+      
+      // Reload to sync with templates
+      reloadHabits()
+    }
   }
 
   const getFilteredHabits = () => {
@@ -139,6 +240,17 @@ function HabitsPage() {
   return (
     <>
       <div className="page-header">
+        {view === 'daily' && (
+          <div className="habits-header">
+            <div className="habits-header-content">
+              <h2>My Habits</h2>
+              <button className="create-habit-btn-header" onClick={handleNewHabit}>
+                + New Habit
+              </button>
+            </div>
+          </div>
+        )}
+        
         <div className="view-tabs">
           <button 
             className={`tab ${view === 'daily' ? 'active' : ''}`}
@@ -207,6 +319,13 @@ function HabitsPage() {
             >
               All
             </button>
+            <button 
+              className="filter-btn create-habit-btn"
+              onClick={handleNewHabit}
+              title="Create New Habit"
+            >
+              + New Habit
+            </button>
           </div>
 
           <MoodInput />
@@ -219,10 +338,16 @@ function HabitsPage() {
             {filteredHabits.length === 0 ? (
               <div className="no-habits-message">
                 <p>No habits to show for this time period.</p>
+                <button className="create-habit-btn-large" onClick={handleNewHabit}>
+                  + Create Your First Habit
+                </button>
               </div>
             ) : habitsByCategory.length === 0 ? (
               <div className="no-habits-message">
                 <p>No habits to display.</p>
+                <button className="create-habit-btn-large" onClick={handleNewHabit}>
+                  + Create Your First Habit
+                </button>
               </div>
             ) : (
               habitsByCategory.map((categoryGroup) => (
@@ -249,17 +374,9 @@ function HabitsPage() {
                           toggleHabit(id)
                         }}
                         onUpdate={() => {
-                          // Reload habits to get updated data
-                          const todayKey = getTodayKey()
-                          const savedData = getDayData(todayKey)
-                          if (savedData && savedData.habits) {
-                            setHabits(savedData.habits.map(h => ({
-                              ...h,
-                              category: h.category || getCategoryForHabit(h.name),
-                              timeOfDay: h.timeOfDay || 'anytime',
-                            })))
-                          }
+                          reloadHabits()
                         }}
+                        onDelete={handleHabitDelete}
                       />
                     ))}
                   </div>
@@ -270,6 +387,28 @@ function HabitsPage() {
         </>
       ) : (
         <StatsView viewType={view} />
+      )}
+
+      {view === 'daily' && (
+        <button 
+          className="floating-create-habit-btn"
+          onClick={handleNewHabit}
+          title="Create New Habit"
+          aria-label="Create New Habit"
+        >
+          +
+        </button>
+      )}
+
+      {showHabitForm && (
+        <HabitForm
+          habit={editingHabit}
+          onSave={handleHabitSave}
+          onCancel={() => { 
+            setShowHabitForm(false)
+            setEditingHabit(null)
+          }}
+        />
       )}
     </>
   )
