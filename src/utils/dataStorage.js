@@ -25,7 +25,10 @@
  * @requires constants/storageKeys
  */
 import { STORAGE_KEY_HABIT_DATA } from '../constants/storageKeys'
-import { CACHE_TTL } from '../constants/appConstants'
+import { TIMING } from '../constants/config'
+
+// Use CACHE_TTL from config
+const CACHE_TTL = TIMING.CACHE_TTL
 
 // Use the constant for the storage key (maintains backward compatibility)
 export const STORAGE_KEY = STORAGE_KEY_HABIT_DATA

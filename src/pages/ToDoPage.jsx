@@ -1,110 +1,38 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ToDoItem from '../components/todos/ToDoItem'
 import ToDoForm from '../components/todos/ToDoForm'
 import RecurrenceManager from '../components/todos/RecurrenceManager'
-import { getAllTodos, saveTodo, deleteTodo, toggleTodoComplete, getTodosByPriority, getOverdueTodos } from '../utils/todoStorage'
-import { generateRecurringTodo, shouldGenerateNext } from '../utils/recurrenceUtils'
+import { useTodos } from '../hooks/useTodos'
 import './ToDoPage.css'
 
+/**
+ * To Do Page Component
+ * 
+ * Displays and manages user todos. Uses the useTodos custom hook
+ * for all todo-related state and operations.
+ * 
+ * @component
+ * @returns {JSX.Element} To Do page component
+ */
 function ToDoPage() {
-  const [todos, setTodos] = useState([])
-  const [showTodoForm, setShowTodoForm] = useState(false)
-  const [editingTodo, setEditingTodo] = useState(null)
-  const [filter, setFilter] = useState('all') // 'all', 'active', 'completed'
+  const {
+    todos,
+    showForm: showTodoForm,
+    editingTodo,
+    filter,
+    handleSave: handleTodoSave,
+    handleDelete: handleTodoDelete,
+    handleToggle: handleTodoToggle,
+    handleEdit: handleTodoEdit,
+    handleNew: handleNewTodo,
+    closeForm,
+    setFilter,
+    getFilteredTodos,
+    getOverdueList,
+    loadTodos,
+  } = useTodos()
+  
   const [showRecurrenceManager, setShowRecurrenceManager] = useState(false)
-
-  useEffect(() => {
-    loadTodos()
-    checkRecurringTodos()
-  }, [])
-
-  useEffect(() => {
-    // Check for recurring todos whenever todos change
-    checkRecurringTodos()
-  }, [todos])
-
-  const loadTodos = () => {
-    const allTodos = getAllTodos()
-    setTodos(allTodos)
-  }
-
-  const handleTodoSave = (todoData) => {
-    saveTodo(todoData)
-    loadTodos()
-    setShowTodoForm(false)
-    setEditingTodo(null)
-  }
-
-  const checkRecurringTodos = () => {
-    const allTodos = getAllTodos()
-    const recurringTemplates = allTodos.filter(t => 
-      t.isRecurring && !t.isRecurringInstance
-    )
-    
-    recurringTemplates.forEach(template => {
-      // Check if we need to generate a new instance
-      if (shouldGenerateNext(template)) {
-        // Check if an instance for this due date already exists
-        const nextDue = template.nextDueDate || template.dueDate
-        const existingInstance = allTodos.find(t => 
-          t.originalRecurringId === template.id &&
-          t.dueDate &&
-          new Date(t.dueDate).toDateString() === new Date(nextDue).toDateString()
-        )
-        
-        if (!existingInstance) {
-          const newInstance = generateRecurringTodo(template)
-          if (newInstance) {
-            saveTodo(newInstance)
-          }
-        }
-      }
-    })
-    
-    loadTodos()
-  }
-
-  const handleTodoToggle = (todoId) => {
-    const todo = toggleTodoComplete(todoId)
-    
-    // If completing a recurring todo instance, check if we need to generate next
-    if (todo && todo.completed && todo.originalRecurringId) {
-      setTimeout(() => {
-        checkRecurringTodos()
-      }, 1000)
-    }
-    
-    loadTodos()
-  }
-
-  const handleTodoDelete = (todoId) => {
-    if (window.confirm('Are you sure you want to delete this to do item?')) {
-      deleteTodo(todoId)
-      loadTodos()
-    }
-  }
-
-  const handleTodoEdit = (todo) => {
-    setEditingTodo(todo)
-    setShowTodoForm(true)
-  }
-
-  const handleNewTodo = () => {
-    setEditingTodo(null)
-    setShowTodoForm(true)
-  }
-
-  const getFilteredTodos = () => {
-    let filtered = todos
-    
-    if (filter === 'active') {
-      filtered = filtered.filter(t => !t.completed)
-    } else if (filter === 'completed') {
-      filtered = filtered.filter(t => t.completed)
-    }
-    
-    return getTodosByPriority(filtered)
-  }
 
   /**
    * Group todos by priority for display in sections.
@@ -132,7 +60,7 @@ function ToDoPage() {
 
   const filteredTodos = getFilteredTodos()
   const todosByPriority = groupTodosByPriority(filteredTodos)
-  const overdueTodos = getOverdueTodos(todos)
+  const overdueTodos = getOverdueList()
   const activeCount = todos.filter(t => !t.completed).length
   const completedCount = todos.filter(t => t.completed).length
 
@@ -281,7 +209,7 @@ function ToDoPage() {
         <ToDoForm
           todo={editingTodo}
           onSave={handleTodoSave}
-          onCancel={() => { setShowTodoForm(false); setEditingTodo(null); }}
+          onCancel={closeForm}
         />
       )}
 

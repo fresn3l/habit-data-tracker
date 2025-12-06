@@ -1,47 +1,28 @@
-import { useState, useEffect } from 'react'
 import GoalItem from '../components/goals/GoalItem'
 import GoalForm from '../components/goals/GoalForm'
-import { getAllGoals, saveGoal, deleteGoal } from '../utils/goalStorage'
+import { useGoals } from '../hooks/useGoals'
 import './GoalsPage.css'
 
+/**
+ * Goals Page Component
+ * 
+ * Displays and manages user goals. Uses the useGoals custom hook
+ * for all goal-related state and operations.
+ * 
+ * @component
+ * @returns {JSX.Element} Goals page component
+ */
 function GoalsPage() {
-  const [goals, setGoals] = useState([])
-  const [showGoalForm, setShowGoalForm] = useState(false)
-  const [editingGoal, setEditingGoal] = useState(null)
-
-  useEffect(() => {
-    loadGoals()
-  }, [])
-
-  const loadGoals = () => {
-    setGoals(getAllGoals())
-  }
-
-  const handleGoalSave = (goalData) => {
-    if (!goalData.id) {
-      goalData.id = Date.now().toString()
-      goalData.createdAt = new Date().toISOString()
-    }
-    saveGoal(goalData)
-    loadGoals()
-    setShowGoalForm(false)
-    setEditingGoal(null)
-  }
-
-  const handleGoalEdit = (goal) => {
-    setEditingGoal(goal)
-    setShowGoalForm(true)
-  }
-
-  const handleGoalDelete = (goalId) => {
-    deleteGoal(goalId)
-    loadGoals()
-  }
-
-  const handleNewGoal = () => {
-    setEditingGoal(null)
-    setShowGoalForm(true)
-  }
+  const {
+    goals,
+    showForm: showGoalForm,
+    editingGoal,
+    handleSave: handleGoalSave,
+    handleDelete: handleGoalDelete,
+    handleEdit: handleGoalEdit,
+    handleNew: handleNewGoal,
+    closeForm,
+  } = useGoals()
 
   return (
     <>
@@ -86,7 +67,7 @@ function GoalsPage() {
         <GoalForm
           goal={editingGoal}
           onSave={handleGoalSave}
-          onCancel={() => { setShowGoalForm(false); setEditingGoal(null); }}
+          onCancel={closeForm}
         />
       )}
     </>
