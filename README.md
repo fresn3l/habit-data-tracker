@@ -179,9 +179,14 @@ Data can be exported/imported as JSON for backup.
 
 ## 📝 Documentation
 
-- `ARCHITECTURE.md` - Architecture overview
-- `PACKAGING.md` - Desktop app packaging guide
-- `REPO_ANALYSIS.md` - Repository analysis and improvements
+All documentation has been organized into the [`docs/`](./docs/) directory:
+
+- **[Setup Guides](./docs/setup/)** - Build, installation, and setup instructions
+- **[Feature Documentation](./docs/features/)** - Detailed feature documentation
+- **[Development Guides](./docs/development/)** - Architecture, refactoring, and technical docs
+- **[User Guides](./docs/user-guides/)** - End-user documentation
+
+See [docs/README.md](./docs/README.md) for a complete documentation index.
 
 ## 🐛 Troubleshooting
 

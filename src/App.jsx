@@ -23,6 +23,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { startReminderScheduler } from './utils/reminderScheduler'
 import { requestNotificationPermission } from './utils/notificationUtils'
+import ErrorBoundary from './components/ui/ErrorBoundary'
 import './App.css'
 
 // ============================================================================
@@ -160,12 +161,13 @@ function App() {
   // ========================================================================
   
   return (
-    <div className="app">
-      {/* ================================================================== */}
-      {/* HEADER SECTION */}
-      {/* ================================================================== */}
-      
-      <header className="app-header">
+    <ErrorBoundary>
+      <div className="app">
+        {/* ================================================================== */}
+        {/* HEADER SECTION */}
+        {/* ================================================================== */}
+        
+        <header className="app-header">
         {/* App Title */}
         <h1>Deck Log</h1>
         
@@ -271,12 +273,13 @@ function App() {
         Footer only shown on Habits page for motivational messaging.
         Other pages don't need the footer.
       */}
-      {currentPage === 'habits' && (
-        <footer className="app-footer">
-          <p>Keep up the great work! 💪</p>
-        </footer>
-      )}
-    </div>
+        {currentPage === 'habits' && (
+          <footer className="app-footer">
+            <p>Keep up the great work! 💪</p>
+          </footer>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }
 
