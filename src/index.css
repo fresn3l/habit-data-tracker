@@ -46,11 +46,14 @@ body {
   /* Font smoothing for crisp text rendering */
   -webkit-font-smoothing: antialiased;  /* Smooth text on Safari/Chrome */
   -moz-osx-font-smoothing: grayscale;   /* Smooth text on Firefox macOS */
-  
-  /* Background gradient (this is overridden by App.css but kept as fallback) */
+  /* ============================================================================
+  MAY BE DELETED LATER
+  ============================================================================ */
+  ============================================================================
+  /* Background gradient (this is overridden by App.css but kept as fallback) 
   background: linear-gradient(135deg, #000000 0%, #d9d7db 100%);
-  min-height: 100vh;  /* Ensure page fills at least full viewport height */
-  color: #333;        /* Default text color (overridden by App.css) */
+  min-height: 100vh;   Ensure page fills at least full viewport height 
+  color: #333;         Default text color (overridden by App.css) */
 }
 
 /* ============================================================================

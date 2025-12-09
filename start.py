@@ -38,6 +38,66 @@ import json
 from pathlib import Path
 
 # ============================================================================
+# VIRTUAL ENVIRONMENT AUTO-ACTIVATION
+# ============================================================================
+
+def activate_virtual_environment():
+    """
+    Automatically activate virtual environment if it exists.
+    
+    This function checks for a virtual environment in the project directory
+    and activates it if found. This allows the app to run without manually
+    activating the venv first.
+    
+    The venv is activated by adding its site-packages to sys.path, which
+    allows importing packages installed in the venv.
+    
+    Returns:
+        bool: True if venv was found and activated, False otherwise
+    """
+    # Get the directory containing this script
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+    venv_path = os.path.join(script_dir, 'venv')
+    
+    # Check if venv exists
+    if not os.path.exists(venv_path):
+        return False
+    
+    # Determine the site-packages path based on platform
+    if sys.platform == 'win32':
+        site_packages = os.path.join(venv_path, 'Lib', 'site-packages')
+    else:
+        # macOS/Linux - try multiple Python version paths
+        python_version = f'python{sys.version_info.major}.{sys.version_info.minor}'
+        site_packages = os.path.join(venv_path, 'lib', python_version, 'site-packages')
+        
+        # If exact version not found, try to find any python* directory
+        if not os.path.exists(site_packages):
+            lib_path = os.path.join(venv_path, 'lib')
+            if os.path.exists(lib_path):
+                for item in os.listdir(lib_path):
+                    if item.startswith('python'):
+                        alt_site_packages = os.path.join(lib_path, item, 'site-packages')
+                        if os.path.exists(alt_site_packages):
+                            site_packages = alt_site_packages
+                            break
+    
+    # Add to Python path if it exists
+    if os.path.exists(site_packages):
+        if site_packages not in sys.path:
+            sys.path.insert(0, site_packages)
+            # Also add the parent directory for packages that might be installed differently
+            venv_lib = os.path.dirname(site_packages)
+            if venv_lib not in sys.path:
+                sys.path.insert(0, venv_lib)
+            return True
+    
+    return False
+
+# Auto-activate venv on import
+activate_virtual_environment()
+
+# ============================================================================
 # PATH RESOLUTION
 # ============================================================================
 
@@ -602,28 +662,59 @@ def check_web_directory():
 # MAIN APPLICATION ENTRY POINT
 # ============================================================================
 
+def check_eel_available():
+    """
+    Verifies that Eel is available and can be imported.
+    
+    Returns:
+        bool: True if Eel is available, False otherwise
+    
+    Side Effects:
+        Prints error messages to console if Eel is not available
+    """
+    try:
+        import eel
+        return True
+    except ImportError:
+        print("ERROR: Eel library not found!")
+        print("")
+        print("Please install Eel:")
+        print("  1. Activate virtual environment: source venv/bin/activate")
+        print("  2. Install dependencies: pip install -r requirements.txt")
+        print("")
+        print("Or if venv doesn't exist, create it first:")
+        print("  python3 -m venv venv")
+        print("  source venv/bin/activate")
+        print("  pip install -r requirements.txt")
+        return False
+
 def main():
     """
     Main entry point for the desktop application.
     
     This function:
     1. Validates that the web directory exists
-    2. Detects available browser (Edge or Chrome)
-    3. Launches the browser in app mode
-    4. Starts the Eel server
+    2. Checks that Eel is available
+    3. Detects available browser (Edge or Chrome)
+    4. Launches the browser in app mode
+    5. Starts the Eel server
     
     The app runs in standalone mode (no browser UI) using Chrome/Edge's
     --app flag. Safari is not supported because it doesn't support app mode.
     
     Raises:
-        SystemExit: Exits with code 1 if web directory is missing or
-                   if no supported browser is found
+        SystemExit: Exits with code 1 if web directory is missing,
+                   if Eel is not available, or if no supported browser is found
     
     Side Effects:
         - Starts a local web server on port 8080
         - Launches Chrome/Edge in app mode
         - Blocks until the application is closed
     """
+    # Check Eel availability first
+    if not check_eel_available():
+        sys.exit(1)
+    
     # Validate web directory before proceeding
     if not check_web_directory():
         sys.exit(1)

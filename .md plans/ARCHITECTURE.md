@@ -2,7 +2,7 @@
 
 ## 📐 Project Overview
 
-**Personal Tracker** is a comprehensive desktop application for tracking daily habits, goals, todos, mood, and analytics. Built with React (frontend) and Python/Eel (desktop wrapper), it provides a sophisticated, elegant interface for personal productivity tracking.
+**Personal Tracker** is a comprehensive desktop application for tracking daily habits, goals, todos, mood, and analytics. Built with React (frontend) and Python/Eel (desktop wrapper), it provides a semi sophisticated interface for personal data tracking.
 
 ---
 
